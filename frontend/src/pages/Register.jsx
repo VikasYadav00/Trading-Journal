@@ -25,7 +25,8 @@ export default function Register() {
     setIsLoading(true);
     try {
       const { confirmPassword, ...userData } = formData;
-      await axios.post('http://localhost:5000/api/v1/auth/register', userData);
+      const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await axios.post(`${BASE_URL}/api/v1/auth/register`, userData);
       // Redirect to OTP verification — user will enter code from their email
       navigate('/verify-otp', { state: { email: formData.email } });
     } catch (err) {

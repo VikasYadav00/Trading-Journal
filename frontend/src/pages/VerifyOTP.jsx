@@ -65,7 +65,8 @@ export default function VerifyOTP() {
     setIsLoading(true);
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/api/v1/auth/verify-otp', { email, otp: code });
+      const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await axios.post(`${BASE_URL}/api/v1/auth/verify-otp`, { email, otp: code });
       // Save token & user to localStorage and Redux
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -85,7 +86,8 @@ export default function VerifyOTP() {
     setIsResending(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/api/v1/auth/resend-otp', { email });
+      const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      await axios.post(`${BASE_URL}/api/v1/auth/resend-otp`, { email });
       setSuccess('A new code has been sent to your email!');
       setResendTimer(60);
       setTimeout(() => setSuccess(''), 4000);
