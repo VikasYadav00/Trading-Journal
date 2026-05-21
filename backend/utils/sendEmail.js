@@ -1,17 +1,3 @@
-import nodemailer from 'nodemailer';
-
-const sendEmail = async ({ to, subject, html }) => {
-  const user = process.env.EMAIL_USER;
-  const pass = process.env.EMAIL_PASS;
-
-  if (!user || user === 'your_email@gmail.com') throw new Error('EMAIL_USER not set in .env');
-  if (!pass || pass === 'your_app_password') throw new Error('EMAIL_PASS not set in .env');
-
-  // Remove spaces from App Password (Gmail shows them grouped but they must be removed)
-  const cleanPass = pass.replace(/\s/g, '');
-
-  console.log(`📧 Sending email from ${user} to ${to}...`);
-
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
