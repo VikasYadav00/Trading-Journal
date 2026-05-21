@@ -1,24 +1,24 @@
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,   // SSL on port 465 is more reliable than STARTTLS 587
-    auth: {
-      user,
-      pass: cleanPass,
+const sendEmail = async ({ to, subject, html }) => {
+  const payload = {
+    from: 'Trading Journal <onboarding@resend.dev>',
+    to: to,
+    subject: subject,
+    html: html
+  };
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json'
     },
-    tls: {
-      rejectUnauthorized: false,  // avoids self-signed cert issues
-    },
+    body: JSON.stringify(payload)
   });
 
-  const info = await transporter.sendMail({
-    from: `"TradeJournal" <${user}>`,
-    to,
-    subject,
-    html,
-  });
-
-  console.log(`✅ Email sent! Message ID: ${info.messageId}`);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error sending email via Resend');
+  }
 };
 
 export default sendEmail;
