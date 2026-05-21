@@ -1,24 +1,38 @@
-const sendEmail = async ({ to, subject, html }) => {
-  const payload = {
-    from: 'Trading Journal <onboarding@resend.dev>',
-    to: to,
-    subject: subject,
-    html: html
-  };
+import nodemailer from 'nodemailer';
 
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json'
+const sendEmail = async ({ to, subject, html }) => {
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+
+  if (!user) throw new Error('EMAIL_USER not set in .env');
+  if (!pass) throw new Error('EMAIL_PASS not set in .env');
+
+  // Remove spaces from App Password (Gmail shows them grouped but they must be removed)
+  const cleanPass = pass.replace(/\s/g, '');
+
+  console.log(`📧 Sending email from ${user} to ${to}...`);
+
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,   // SSL on port 465 is more reliable than STARTTLS 587
+    auth: {
+      user,
+      pass: cleanPass,
     },
-    body: JSON.stringify(payload)
+    tls: {
+      rejectUnauthorized: false,  // avoids self-signed cert issues
+    },
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Error sending email via Resend');
-  }
+  const info = await transporter.sendMail({
+    from: `"TradeJournal" <${user}>`,
+    to,
+    subject,
+    html,
+  });
+
+  console.log(`✅ Email sent! Message ID: ${info.messageId}`);
 };
 
 export default sendEmail;
