@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, ArrowDownRight, Activity, DollarSign, Target, TrendingUp, PlusCircle, X, Loader2 } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Activity, DollarSign, Target, TrendingUp, PlusCircle, X, Loader2, Trophy, Diamond, BarChart2, Calendar } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrades, updateTrade } from '../features/trades/tradeSlice';
 import { Link } from 'react-router-dom';
@@ -98,6 +98,55 @@ export default function Dashboard() {
     plugins: { legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', padding: 16 } } }
   };
 
+  // --- MONTHLY RECAP CALCULATIONS ---
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+  const monthName = today.toLocaleString('default', { month: 'long' });
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  const currentMonthClosedTrades = closed.filter(t => {
+    const d = new Date(t.entryDate || t.createdAt);
+    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+  });
+
+  const currentMonthNetPnL = currentMonthClosedTrades.reduce((acc, t) => acc + (t.pnl || 0), 0);
+
+  const dailyPnL = {};
+  currentMonthClosedTrades.forEach(t => {
+    const d = new Date(t.entryDate || t.createdAt);
+    const day = d.getDate();
+    if (!dailyPnL[day]) dailyPnL[day] = { pnl: 0, trades: 0 };
+    dailyPnL[day].pnl += (t.pnl || 0);
+    dailyPnL[day].trades += 1;
+  });
+
+  const activeTradingDays = Object.keys(dailyPnL).length;
+
+  let bestDay = null;
+  let maxPnL = -Infinity;
+  Object.keys(dailyPnL).forEach(day => {
+    if (dailyPnL[day].pnl > maxPnL) {
+      maxPnL = dailyPnL[day].pnl;
+      bestDay = { day: parseInt(day), pnl: maxPnL };
+    }
+  });
+
+  let bestTrade = null;
+  currentMonthClosedTrades.forEach(t => {
+    if (!bestTrade || (t.pnl || 0) > (bestTrade.pnl || 0)) {
+      bestTrade = t;
+    }
+  });
+
+  const currentMonthWins = currentMonthClosedTrades.filter(t => t.status === 'Win').length;
+  const currentMonthWinRate = currentMonthClosedTrades.length > 0 
+    ? ((currentMonthWins / currentMonthClosedTrades.length) * 100).toFixed(1) 
+    : '0.0';
+
+  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  // ----------------------------------
+
   const stats = [
     { name: 'Net PnL', value: `${netPnL >= 0 ? '+' : ''}$${netPnL.toFixed(2)}`, trend: netPnL >= 0 ? 'up' : 'down', icon: DollarSign, sub: `${closed.length} closed trades` },
     { name: 'Win Rate', value: `${winRate}%`, trend: parseFloat(winRate) >= 50 ? 'up' : 'down', icon: Target, sub: `${wins}W / ${losses}L` },
@@ -137,35 +186,137 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Charts */}
+      {/* Charts & Heatmap Area */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }} className="lg:col-span-2 glass-card rounded-xl p-6 border border-white/5">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-base font-semibold">Equity Curve</h3>
-            <span className="text-xs text-muted-foreground">Last {last10.length} trades</span>
+        
+        {/* Monthly Recap & Heatmap */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} 
+          className="lg:col-span-1 glass-card rounded-xl p-6 border border-white/5 bg-gradient-to-br from-[#120a1f] to-[#1a102c] shadow-2xl relative overflow-hidden">
+          
+          {/* Subtle glow effect */}
+          <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 blur-[60px] rounded-full mix-blend-screen pointer-events-none"></div>
+          
+          <div className="flex items-center justify-between mb-4 relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+                {user?.fullName?.substring(0, 2).toUpperCase() || user?.username?.substring(0, 2).toUpperCase() || 'TJ'}
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white leading-tight">{user?.fullName || user?.username || 'Trader'}</h3>
+                <p className="text-xs text-white/50 font-medium">{monthName} {currentYear}</p>
+              </div>
+            </div>
+            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
+              <Calendar className="w-4 h-4 text-white/70" />
+            </div>
           </div>
-          <div className="h-64">
-            <Line data={lineData} options={chartOptions} />
+          
+          <div className="mt-5 relative z-10">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-4 h-[2px] bg-warning"></span>
+              <p className="text-[10px] font-bold text-warning tracking-widest uppercase">MONTHLY RECAP</p>
+            </div>
+            <h2 className="text-3xl font-black text-white">{monthName} <span className="text-primary/80">{currentYear}</span></h2>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-4 relative z-10">
+            <span className={`text-[10px] font-bold px-3 py-1 rounded-md flex items-center gap-1 ${currentMonthNetPnL >= 0 ? 'bg-success/20 text-success border border-success/30' : 'bg-destructive/20 text-destructive border border-destructive/30'}`}>
+              {currentMonthNetPnL >= 0 ? '▲ PROFIT MONTH' : '▼ LOSS MONTH'}
+            </span>
+            <span className="text-[10px] font-bold px-3 py-1 rounded-md bg-warning/10 text-warning border border-warning/30">
+              {activeTradingDays} TRADING DAYS
+            </span>
+          </div>
+
+          <div className="mt-6 relative z-10">
+            <p className="text-[10px] text-white/50 font-semibold uppercase tracking-widest mb-1">Net Profit / Loss</p>
+            <h3 className={`text-4xl font-black tracking-tighter ${currentMonthNetPnL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              {currentMonthNetPnL >= 0 ? '+' : '-'}${Math.abs(currentMonthNetPnL).toLocaleString('en-US', {minimumFractionDigits: 2})} <span className="text-sm text-white/40 font-semibold tracking-normal ml-1">USD</span>
+            </h3>
+          </div>
+
+          <div className="mt-8 bg-black/20 p-4 rounded-xl border border-white/5 relative z-10">
+            <p className="text-[10px] text-white/50 font-bold uppercase tracking-widest mb-3">Daily P&L Heatmap</p>
+            <div className="grid grid-cols-7 gap-1.5">
+              {daysArray.map(day => {
+                const stat = dailyPnL[day];
+                let bgColor = "bg-white/5 hover:bg-white/10";
+                let textColor = "text-white/30";
+                if (stat) {
+                  if (stat.pnl > 0) {
+                    bgColor = "bg-emerald-500 hover:bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
+                    textColor = "text-emerald-950 font-bold";
+                  } else if (stat.pnl < 0) {
+                    bgColor = "bg-red-500/80 hover:bg-red-400 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+                    textColor = "text-red-50 font-bold";
+                  } else {
+                    bgColor = "bg-slate-500 hover:bg-slate-400";
+                    textColor = "text-slate-900 font-bold";
+                  }
+                }
+                return (
+                  <div key={day} className={`aspect-square rounded-[4px] flex items-center justify-center text-[10px] transition-all cursor-pointer ${bgColor} ${textColor}`} title={stat ? \`Day \${day}: \$\${stat.pnl.toFixed(2)} (\${stat.trades} trades)\` : \`Day \${day}: No trades\`}>
+                    {day}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3 mt-4 relative z-10">
+            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+              <p className="text-[9px] text-warning font-bold uppercase flex items-center gap-1.5 mb-1"><Trophy className="w-3 h-3" /> Best Day</p>
+              <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestDay ? \`+\$\${bestDay.pnl.toFixed(0)}\` : '--'}</p>
+              <p className="text-[10px] text-white/40 mt-1">{bestDay ? \`\${monthName} \${bestDay.day}\` : '--'}</p>
+            </div>
+            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+              <p className="text-[9px] text-pink-400 font-bold uppercase flex items-center gap-1.5 mb-1"><Target className="w-3 h-3" /> Win Rate</p>
+              <p className="text-white font-bold text-lg leading-none mt-1.5">{currentMonthWinRate}%</p>
+              <p className="text-[10px] text-white/40 mt-1">{currentMonthClosedTrades.length} trades</p>
+            </div>
+            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+              <p className="text-[9px] text-blue-400 font-bold uppercase flex items-center gap-1.5 mb-1"><Diamond className="w-3 h-3" /> Best Trade</p>
+              <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestTrade ? \`+\$\${bestTrade.pnl.toFixed(0)}\` : '--'}</p>
+              <p className="text-[10px] text-white/40 mt-1">{bestTrade ? 'single trade' : '--'}</p>
+            </div>
+            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+              <p className="text-[9px] text-indigo-400 font-bold uppercase flex items-center gap-1.5 mb-1"><BarChart2 className="w-3 h-3" /> Active Days</p>
+              <p className="text-white font-bold text-lg leading-none mt-1.5">{activeTradingDays}</p>
+              <p className="text-[10px] text-white/40 mt-1">of {daysInMonth} days</p>
+            </div>
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45 }} className="glass-card rounded-xl p-6 flex flex-col border border-white/5">
-          <h3 className="text-base font-semibold mb-4">Win / Loss Ratio</h3>
-          <div className="flex-1 flex items-center justify-center">
-            {closed.length > 0 ? (
-              <div className="w-full max-w-[220px]">
-                <Doughnut data={donutData} options={donutOptions} />
-              </div>
-            ) : (
-              <div className="text-center text-muted-foreground">
-                <Target className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                <p className="text-sm">No closed trades yet</p>
-              </div>
-            )}
-          </div>
-        </motion.div>
+        {/* Existing Charts Container */}
+        <div className="lg:col-span-2 flex flex-col gap-6">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }} className="glass-card rounded-xl p-6 border border-white/5 flex-1">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-base font-semibold">Equity Curve</h3>
+              <span className="text-xs text-muted-foreground">Last {last10.length} trades</span>
+            </div>
+            <div className="h-48 md:h-64">
+              <Line data={lineData} options={chartOptions} />
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55 }} className="glass-card rounded-xl p-6 flex flex-col border border-white/5">
+            <h3 className="text-base font-semibold mb-4">Win / Loss Ratio</h3>
+            <div className="flex-1 flex items-center justify-center">
+              {closed.length > 0 ? (
+                <div className="w-full max-w-[200px]">
+                  <Doughnut data={donutData} options={donutOptions} />
+                </div>
+              ) : (
+                <div className="text-center text-muted-foreground">
+                  <Target className="w-10 h-10 mx-auto mb-2 opacity-30" />
+                  <p className="text-sm">No closed trades yet</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Recent Trades Table */}
