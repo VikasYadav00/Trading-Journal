@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowDownRight, Activity, DollarSign, Target, TrendingUp,
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrades, updateTrade } from '../features/trades/tradeSlice';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import {
   Chart as ChartJS, CategoryScale, LinearScale, PointElement,
   LineElement, ArcElement, Title, Tooltip, Legend, Filler
@@ -16,6 +17,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const { trades, isLoading } = useSelector((state) => state.trades);
   const { user } = useSelector((state) => state.auth);
+  const { theme } = useTheme();
 
   const [closeModalTrade, setCloseModalTrade] = useState(null);
   const [closeData, setCloseData] = useState({ exitPrice: '', pnl: '' });
@@ -85,17 +87,22 @@ export default function Dashboard() {
     }],
   };
 
+  const isLight = theme === 'light';
+  const gridColor = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.07)';
+  const textColor = isLight ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.5)';
+  const legendTextColor = isLight ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.7)';
+
   const chartOptions = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      y: { grid: { color: 'rgba(255,255,255,0.07)' }, ticks: { color: 'rgba(255,255,255,0.5)', callback: v => `$${v}` } },
-      x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.5)' } }
+      y: { grid: { color: gridColor }, ticks: { color: textColor, callback: v => `$${v}` } },
+      x: { grid: { display: false }, ticks: { color: textColor } }
     }
   };
 
   const donutOptions = {
-    plugins: { legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', padding: 16 } } }
+    plugins: { legend: { position: 'bottom', labels: { color: legendTextColor, padding: 16 } } }
   };
 
   // --- MONTHLY RECAP CALCULATIONS ---
@@ -191,7 +198,7 @@ export default function Dashboard() {
         
         {/* Monthly Recap & Heatmap */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} 
-          className="lg:col-span-1 glass-card rounded-xl p-6 border border-foreground/5 bg-gradient-to-br from-[#120a1f] to-[#1a102c] shadow-2xl relative overflow-hidden">
+          className="lg:col-span-1 glass-card rounded-xl p-6 border border-foreground/5 bg-gradient-to-br from-primary/5 to-primary/10 dark:from-[#120a1f] dark:to-[#1a102c] shadow-2xl relative overflow-hidden">
           
           {/* Subtle glow effect */}
           <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 blur-[60px] rounded-full mix-blend-screen pointer-events-none"></div>
