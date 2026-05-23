@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { TrendingUp, Activity, PieChart } from 'lucide-react';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
@@ -13,6 +14,84 @@ import Goals from './pages/Goals.jsx';
 import VerifyOTP from './pages/VerifyOTP.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+
+function Hero3D() {
+  return (
+    <div className="relative w-full max-w-3xl h-[400px] mt-16 flex items-center justify-center" style={{ perspective: 2000 }}>
+      <motion.div 
+        initial={{ rotateX: 60, rotateZ: -45, y: 50, opacity: 0 }}
+        animate={{ rotateX: 60, rotateZ: -45, y: 0, opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+        className="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px]"
+        style={{ transformStyle: 'preserve-3d' }}
+      >
+        {/* Layer 1: Base Platform */}
+        <motion.div 
+          animate={{ z: [0, 10, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-primary/10 border border-primary/30 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-sm"
+        />
+
+        {/* Layer 2: Main Chart Card */}
+        <motion.div 
+          animate={{ z: [30, 50, 30] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+          className="absolute inset-4 bg-background/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md"
+        >
+          <div className="flex justify-between items-center">
+            <div className="space-y-2">
+              <div className="h-2 w-16 bg-white/20 rounded-full" />
+              <div className="h-4 w-24 bg-white/40 rounded-full" />
+            </div>
+            <Activity className="text-primary w-8 h-8" />
+          </div>
+          
+          <div className="flex items-end gap-2 h-24 mt-4">
+            {[40, 70, 45, 90, 65, 80, 100].map((h, i) => (
+              <motion.div
+                key={i}
+                initial={{ height: 0 }}
+                animate={{ height: `${h}%` }}
+                transition={{ duration: 1, delay: 1 + i * 0.1 }}
+                className="flex-1 bg-gradient-to-t from-primary/20 to-primary rounded-t-sm"
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Layer 3: Floating Stats Card 1 */}
+        <motion.div 
+          animate={{ z: [80, 110, 80], x: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          className="absolute -top-10 -right-10 w-40 bg-background/90 border border-blue-500/30 rounded-xl p-4 shadow-[0_20px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl flex items-center gap-3"
+        >
+          <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400">
+            <TrendingUp className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="text-xs text-muted-foreground">Win Rate</div>
+            <div className="font-bold text-lg text-white">68.5%</div>
+          </div>
+        </motion.div>
+
+        {/* Layer 4: Floating Stats Card 2 */}
+        <motion.div 
+          animate={{ z: [60, 90, 60], x: [0, 10, 0] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+          className="absolute -bottom-5 -left-10 w-48 bg-background/90 border border-green-500/30 rounded-xl p-4 shadow-[0_20px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl flex items-center gap-3"
+        >
+           <div className="p-2 bg-green-500/20 rounded-lg text-green-400">
+            <PieChart className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="text-xs text-muted-foreground">Net Profit</div>
+            <div className="font-bold text-lg text-green-400">+$12,450</div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
 
 // Temporary Landing Page to show the UI/UX direction
 function LandingPage() {
@@ -71,31 +150,8 @@ function LandingPage() {
           Track every trade, analyze your performance, and discover your edge with our premium, professional-grade journaling SaaS.
         </motion.p>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex gap-4"
-        >
-          <button className="px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-primary/30">
-            Start Free Trial
-          </button>
-          <button className="px-8 py-4 rounded-lg glass font-semibold text-lg hover:bg-white/10 transition-all hover:scale-105 active:scale-95">
-            View Demo
-          </button>
-        </motion.div>
+        <Hero3D />
 
-        {/* Dashboard Preview Mockup */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-20 w-full max-w-5xl h-[400px] glass-card rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden"
-        >
-           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/80 flex items-center justify-center">
-             <p className="text-xl text-muted-foreground font-medium">Dashboard Analytics Preview</p>
-           </div>
-        </motion.div>
       </main>
     </div>
   );
