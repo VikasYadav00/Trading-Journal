@@ -255,7 +255,7 @@ export default function Dashboard() {
                   }
                 }
                 return (
-                  <div key={day} className={`aspect-square rounded-[4px] flex items-center justify-center text-[10px] transition-all cursor-pointer ${bgColor} ${textColor}`} title={stat ? \`Day \${day}: \$\${stat.pnl.toFixed(2)} (\${stat.trades} trades)\` : \`Day \${day}: No trades\`}>
+                  <div key={day} className={`aspect-square rounded-[4px] flex items-center justify-center text-[10px] transition-all cursor-pointer ${bgColor} ${textColor}`} title={stat ? `Day ${day}: $${stat.pnl.toFixed(2)} (${stat.trades} trades)` : `Day ${day}: No trades`}>
                     {day}
                   </div>
                 );
@@ -266,8 +266,8 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 gap-3 mt-4 relative z-10">
             <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
               <p className="text-[9px] text-warning font-bold uppercase flex items-center gap-1.5 mb-1"><Trophy className="w-3 h-3" /> Best Day</p>
-              <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestDay ? \`+\$\${bestDay.pnl.toFixed(0)}\` : '--'}</p>
-              <p className="text-[10px] text-white/40 mt-1">{bestDay ? \`\${monthName} \${bestDay.day}\` : '--'}</p>
+              <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestDay ? `+$${bestDay.pnl.toFixed(0)}` : '--'}</p>
+              <p className="text-[10px] text-white/40 mt-1">{bestDay ? `${monthName} ${bestDay.day}` : '--'}</p>
             </div>
             <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
               <p className="text-[9px] text-pink-400 font-bold uppercase flex items-center gap-1.5 mb-1"><Target className="w-3 h-3" /> Win Rate</p>
@@ -276,7 +276,7 @@ export default function Dashboard() {
             </div>
             <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
               <p className="text-[9px] text-blue-400 font-bold uppercase flex items-center gap-1.5 mb-1"><Diamond className="w-3 h-3" /> Best Trade</p>
-              <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestTrade ? \`+\$\${bestTrade.pnl.toFixed(0)}\` : '--'}</p>
+              <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestTrade ? `+$${bestTrade.pnl.toFixed(0)}` : '--'}</p>
               <p className="text-[10px] text-white/40 mt-1">{bestTrade ? 'single trade' : '--'}</p>
             </div>
             <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
