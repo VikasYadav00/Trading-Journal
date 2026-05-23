@@ -95,8 +95,8 @@ export default function Settings() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
         className="glass-card rounded-xl overflow-hidden">
         
-        <div className="p-6 flex items-center gap-5 border-b border-white/5">
-          <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-2xl font-bold text-white shadow-lg shadow-primary/30">
+        <div className="p-6 flex items-center gap-5 border-b border-foreground/5">
+          <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-2xl font-bold text-primary-foreground shadow-lg shadow-primary/30">
             {user?.fullName?.[0]?.toUpperCase() || user?.username?.[0]?.toUpperCase() || 'T'}
           </div>
           <div className="flex-1">
@@ -106,7 +106,7 @@ export default function Settings() {
           </div>
           <button 
             onClick={() => setIsEditing(!isEditing)}
-            className="px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 transition-colors text-sm font-medium">
+            className="px-4 py-2 rounded-lg border border-foreground/10 hover:bg-foreground/5 transition-colors text-sm font-medium">
             {isEditing ? 'Cancel' : 'Edit Profile'}
           </button>
         </div>
@@ -117,9 +117,9 @@ export default function Settings() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="bg-black/20"
+              className="bg-foreground/5"
             >
-              <form onSubmit={handleUpdateProfile} className="p-6 space-y-4 border-t border-white/5">
+              <form onSubmit={handleUpdateProfile} className="p-6 space-y-4 border-t border-foreground/5">
                 <div className="space-y-1">
                   <label className="text-sm font-medium text-muted-foreground">Full Name</label>
                   <input
@@ -127,7 +127,7 @@ export default function Settings() {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full bg-background border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none transition-colors"
+                    className="w-full bg-background border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none transition-colors"
                   />
                 </div>
                 
@@ -140,7 +140,7 @@ export default function Settings() {
                       value={formData.currentPassword}
                       onChange={handleChange}
                       placeholder="Leave blank to keep same"
-                      className="w-full bg-background border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none transition-colors"
+                      className="w-full bg-background border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
                   <div className="space-y-1">
@@ -151,7 +151,7 @@ export default function Settings() {
                       value={formData.newPassword}
                       onChange={handleChange}
                       placeholder="Enter new password"
-                      className="w-full bg-background border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none transition-colors"
+                      className="w-full bg-background border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -173,7 +173,7 @@ export default function Settings() {
         {sections.map((sec, i) => (
           <motion.button key={sec.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08 }}
-            className="glass-card rounded-xl p-5 flex items-start gap-4 text-left hover:bg-white/5 transition-colors group">
+            className="glass-card rounded-xl p-5 flex items-start gap-4 text-left hover:bg-foreground/5 transition-colors group">
             <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
               <sec.icon className="w-5 h-5 text-primary" />
             </div>

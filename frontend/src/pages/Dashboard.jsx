@@ -171,7 +171,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {stats.map((stat, i) => (
           <motion.div key={stat.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08 }} className="glass-card rounded-xl p-5 border border-white/5">
+            transition={{ delay: i * 0.08 }} className="glass-card rounded-xl p-5 border border-foreground/5">
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
                 <stat.icon className="w-5 h-5 text-primary" />
@@ -191,23 +191,23 @@ export default function Dashboard() {
         
         {/* Monthly Recap & Heatmap */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} 
-          className="lg:col-span-1 glass-card rounded-xl p-6 border border-white/5 bg-gradient-to-br from-[#120a1f] to-[#1a102c] shadow-2xl relative overflow-hidden">
+          className="lg:col-span-1 glass-card rounded-xl p-6 border border-foreground/5 bg-gradient-to-br from-[#120a1f] to-[#1a102c] shadow-2xl relative overflow-hidden">
           
           {/* Subtle glow effect */}
           <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 blur-[60px] rounded-full mix-blend-screen pointer-events-none"></div>
           
           <div className="flex items-center justify-between mb-4 relative z-10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-foreground font-bold shadow-lg">
                 {user?.fullName?.substring(0, 2).toUpperCase() || user?.username?.substring(0, 2).toUpperCase() || 'TJ'}
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white leading-tight">{user?.fullName || user?.username || 'Trader'}</h3>
-                <p className="text-xs text-white/50 font-medium">{monthName} {currentYear}</p>
+                <h3 className="text-sm font-bold text-foreground leading-tight">{user?.fullName || user?.username || 'Trader'}</h3>
+                <p className="text-xs text-foreground/50 font-medium">{monthName} {currentYear}</p>
               </div>
             </div>
-            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-white/70" />
+            <div className="w-8 h-8 bg-foreground/5 rounded-lg flex items-center justify-center">
+              <Calendar className="w-4 h-4 text-foreground/70" />
             </div>
           </div>
           
@@ -216,7 +216,7 @@ export default function Dashboard() {
               <span className="w-4 h-[2px] bg-warning"></span>
               <p className="text-[10px] font-bold text-warning tracking-widest uppercase">MONTHLY RECAP</p>
             </div>
-            <h2 className="text-3xl font-black text-white">{monthName} <span className="text-primary/80">{currentYear}</span></h2>
+            <h2 className="text-3xl font-black text-foreground">{monthName} <span className="text-primary/80">{currentYear}</span></h2>
           </div>
 
           <div className="flex flex-wrap gap-2 mt-4 relative z-10">
@@ -229,19 +229,19 @@ export default function Dashboard() {
           </div>
 
           <div className="mt-6 relative z-10">
-            <p className="text-[10px] text-white/50 font-semibold uppercase tracking-widest mb-1">Net Profit / Loss</p>
+            <p className="text-[10px] text-foreground/50 font-semibold uppercase tracking-widest mb-1">Net Profit / Loss</p>
             <h3 className={`text-4xl font-black tracking-tighter ${currentMonthNetPnL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-              {currentMonthNetPnL >= 0 ? '+' : '-'}${Math.abs(currentMonthNetPnL).toLocaleString('en-US', {minimumFractionDigits: 2})} <span className="text-sm text-white/40 font-semibold tracking-normal ml-1">USD</span>
+              {currentMonthNetPnL >= 0 ? '+' : '-'}${Math.abs(currentMonthNetPnL).toLocaleString('en-US', {minimumFractionDigits: 2})} <span className="text-sm text-foreground/40 font-semibold tracking-normal ml-1">USD</span>
             </h3>
           </div>
 
-          <div className="mt-8 bg-black/20 p-4 rounded-xl border border-white/5 relative z-10">
-            <p className="text-[10px] text-white/50 font-bold uppercase tracking-widest mb-3">Daily P&L Heatmap</p>
+          <div className="mt-8 bg-foreground/5 p-4 rounded-xl border border-foreground/5 relative z-10">
+            <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mb-3">Daily P&L Heatmap</p>
             <div className="grid grid-cols-7 gap-1.5">
               {daysArray.map(day => {
                 const stat = dailyPnL[day];
-                let bgColor = "bg-white/5 hover:bg-white/10";
-                let textColor = "text-white/30";
+                let bgColor = "bg-foreground/5 hover:bg-foreground/10";
+                let textColor = "text-foreground/30";
                 if (stat) {
                   if (stat.pnl > 0) {
                     bgColor = "bg-emerald-500 hover:bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
@@ -264,25 +264,25 @@ export default function Dashboard() {
           </div>
           
           <div className="grid grid-cols-2 gap-3 mt-4 relative z-10">
-            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+            <div className="glass-card bg-foreground/10 border border-foreground/5 rounded-xl p-3">
               <p className="text-[9px] text-warning font-bold uppercase flex items-center gap-1.5 mb-1"><Trophy className="w-3 h-3" /> Best Day</p>
               <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestDay ? `+$${bestDay.pnl.toFixed(0)}` : '--'}</p>
-              <p className="text-[10px] text-white/40 mt-1">{bestDay ? `${monthName} ${bestDay.day}` : '--'}</p>
+              <p className="text-[10px] text-foreground/40 mt-1">{bestDay ? `${monthName} ${bestDay.day}` : '--'}</p>
             </div>
-            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+            <div className="glass-card bg-foreground/10 border border-foreground/5 rounded-xl p-3">
               <p className="text-[9px] text-pink-400 font-bold uppercase flex items-center gap-1.5 mb-1"><Target className="w-3 h-3" /> Win Rate</p>
-              <p className="text-white font-bold text-lg leading-none mt-1.5">{currentMonthWinRate}%</p>
-              <p className="text-[10px] text-white/40 mt-1">{currentMonthClosedTrades.length} trades</p>
+              <p className="text-foreground font-bold text-lg leading-none mt-1.5">{currentMonthWinRate}%</p>
+              <p className="text-[10px] text-foreground/40 mt-1">{currentMonthClosedTrades.length} trades</p>
             </div>
-            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+            <div className="glass-card bg-foreground/10 border border-foreground/5 rounded-xl p-3">
               <p className="text-[9px] text-blue-400 font-bold uppercase flex items-center gap-1.5 mb-1"><Diamond className="w-3 h-3" /> Best Trade</p>
               <p className="text-emerald-400 font-bold text-lg leading-none mt-1.5">{bestTrade ? `+$${bestTrade.pnl.toFixed(0)}` : '--'}</p>
-              <p className="text-[10px] text-white/40 mt-1">{bestTrade ? 'single trade' : '--'}</p>
+              <p className="text-[10px] text-foreground/40 mt-1">{bestTrade ? 'single trade' : '--'}</p>
             </div>
-            <div className="glass-card bg-black/30 border border-white/5 rounded-xl p-3">
+            <div className="glass-card bg-foreground/10 border border-foreground/5 rounded-xl p-3">
               <p className="text-[9px] text-indigo-400 font-bold uppercase flex items-center gap-1.5 mb-1"><BarChart2 className="w-3 h-3" /> Active Days</p>
-              <p className="text-white font-bold text-lg leading-none mt-1.5">{activeTradingDays}</p>
-              <p className="text-[10px] text-white/40 mt-1">of {daysInMonth} days</p>
+              <p className="text-foreground font-bold text-lg leading-none mt-1.5">{activeTradingDays}</p>
+              <p className="text-[10px] text-foreground/40 mt-1">of {daysInMonth} days</p>
             </div>
           </div>
         </motion.div>
@@ -290,7 +290,7 @@ export default function Dashboard() {
         {/* Existing Charts Container */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45 }} className="glass-card rounded-xl p-6 border border-white/5 flex-1">
+            transition={{ delay: 0.45 }} className="glass-card rounded-xl p-6 border border-foreground/5 flex-1">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-base font-semibold">Equity Curve</h3>
               <span className="text-xs text-muted-foreground">Last {last10.length} trades</span>
@@ -301,7 +301,7 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55 }} className="glass-card rounded-xl p-6 flex flex-col border border-white/5">
+            transition={{ delay: 0.55 }} className="glass-card rounded-xl p-6 flex flex-col border border-foreground/5">
             <h3 className="text-base font-semibold mb-4">Win / Loss Ratio</h3>
             <div className="flex-1 flex items-center justify-center">
               {closed.length > 0 ? (
@@ -321,8 +321,8 @@ export default function Dashboard() {
 
       {/* Recent Trades Table */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }} className="glass-card rounded-xl overflow-hidden border border-white/5">
-        <div className="flex justify-between items-center p-6 border-b border-white/10">
+        transition={{ delay: 0.5 }} className="glass-card rounded-xl overflow-hidden border border-foreground/5">
+        <div className="flex justify-between items-center p-6 border-b border-foreground/10">
           <h3 className="text-base font-semibold">Recent Trades</h3>
           <Link to="/dashboard/trades" className="text-sm text-primary hover:underline font-medium">View all →</Link>
         </div>
@@ -334,7 +334,7 @@ export default function Dashboard() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="text-xs text-muted-foreground uppercase bg-white/5">
+              <thead className="text-xs text-muted-foreground uppercase bg-foreground/5">
                 <tr>
                   <th className="px-6 py-4 text-left">Asset</th>
                   <th className="px-6 py-4 text-left">Direction</th>
@@ -346,8 +346,8 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {trades.slice(0, 5).map((trade) => (
-                  <tr key={trade._id} className="border-t border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4 font-bold text-white">{trade.asset}</td>
+                  <tr key={trade._id} className="border-t border-foreground/5 hover:bg-foreground/5 transition-colors">
+                    <td className="px-6 py-4 font-bold text-foreground">{trade.asset}</td>
                     <td className="px-6 py-4">
                       <span className={`px-2.5 py-1 rounded-md text-xs font-semibold ${trade.direction === 'Long' ? 'bg-success/20 text-success' : 'bg-destructive/20 text-destructive'}`}>{trade.direction}</span>
                     </td>
@@ -365,7 +365,7 @@ export default function Dashboard() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       {trade.status === 'Open' && (
-                        <button onClick={() => setCloseModalTrade(trade)} className="text-xs font-semibold bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-md transition-colors">
+                        <button onClick={() => setCloseModalTrade(trade)} className="text-xs font-semibold bg-foreground/10 hover:bg-foreground/20 text-foreground px-3 py-1.5 rounded-md transition-colors">
                           Close Trade
                         </button>
                       )}
@@ -382,23 +382,23 @@ export default function Dashboard() {
       <AnimatePresence>
         {closeModalTrade && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md border border-white/10 shadow-2xl relative">
-              <button onClick={() => setCloseModalTrade(null)} className="absolute top-4 right-4 text-muted-foreground hover:text-white transition-colors"><X className="w-5 h-5" /></button>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md border border-foreground/10 shadow-2xl relative">
+              <button onClick={() => setCloseModalTrade(null)} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"><X className="w-5 h-5" /></button>
               <h2 className="text-xl font-bold mb-2">Close Trade</h2>
-              <p className="text-sm text-muted-foreground mb-6">Closing <span className="font-bold text-white">{closeModalTrade.asset}</span> ({closeModalTrade.direction} @ {closeModalTrade.entryPrice})</p>
+              <p className="text-sm text-muted-foreground mb-6">Closing <span className="font-bold text-foreground">{closeModalTrade.asset}</span> ({closeModalTrade.direction} @ {closeModalTrade.entryPrice})</p>
               
               <form onSubmit={handleCloseSubmit} className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-muted-foreground block mb-1">Exit Price</label>
                   <input required type="number" step="any" value={closeData.exitPrice} onChange={(e) => setCloseData({ ...closeData, exitPrice: e.target.value })} 
-                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. 1.0543" />
+                    className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. 1.0543" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground block mb-1">Custom PnL (Optional)</label>
                   <input type="number" step="any" value={closeData.pnl} onChange={(e) => setCloseData({ ...closeData, pnl: e.target.value })} 
-                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="Auto-calculated if left blank" />
+                    className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="Auto-calculated if left blank" />
                 </div>
-                <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
+                <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
                   {isLoading && <Loader2 className="w-4 h-4 animate-spin" />} Close Trade
                 </button>
               </form>

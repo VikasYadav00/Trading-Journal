@@ -80,7 +80,7 @@ export default function Goals() {
                     <span className="text-muted-foreground">Progress</span>
                     {editingProgressId === goal._id ? (
                       <form onSubmit={(e) => handleProgressUpdate(goal._id, e)} className="flex items-center gap-2">
-                        <input type="number" autoFocus value={newProgress} onChange={(e) => setNewProgress(e.target.value)} className="w-20 px-2 py-0.5 text-sm bg-black/30 border border-white/10 rounded outline-none" />
+                        <input type="number" autoFocus value={newProgress} onChange={(e) => setNewProgress(e.target.value)} className="w-20 px-2 py-0.5 text-sm bg-foreground/10 border border-foreground/10 rounded outline-none" />
                         <button type="submit" className="text-primary text-xs font-semibold">Save</button>
                         <button type="button" onClick={() => setEditingProgressId(null)} className="text-muted-foreground text-xs">Cancel</button>
                       </form>
@@ -90,7 +90,7 @@ export default function Goals() {
                       </button>
                     )}
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-2 bg-foreground/10 rounded-full overflow-hidden">
                     <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, delay: i * 0.08 + 0.2 }} className={`h-full rounded-full ${goal.done ? 'bg-success' : 'bg-primary'}`} />
                   </div>
                   <div className="text-right text-xs text-muted-foreground">{pct.toFixed(0)}% complete</div>
@@ -105,17 +105,17 @@ export default function Goals() {
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md border border-white/10 shadow-2xl relative">
-              <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-muted-foreground hover:text-white transition-colors"><X className="w-5 h-5" /></button>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md border border-foreground/10 shadow-2xl relative">
+              <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"><X className="w-5 h-5" /></button>
               <h2 className="text-xl font-bold mb-6">Create New Goal</h2>
               <form onSubmit={handleAddSubmit} className="space-y-4">
-                <div><label className="text-sm font-medium text-muted-foreground block mb-1">Goal Title</label><input required type="text" name="title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. Log 100 Trades" /></div>
+                <div><label className="text-sm font-medium text-muted-foreground block mb-1">Goal Title</label><input required type="text" name="title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. Log 100 Trades" /></div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div><label className="text-sm font-medium text-muted-foreground block mb-1">Target Value</label><input required type="number" name="target" value={formData.target} onChange={(e) => setFormData({ ...formData, target: e.target.value })} className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="100" /></div>
-                  <div><label className="text-sm font-medium text-muted-foreground block mb-1">Unit</label><input required type="text" name="unit" value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="trades, $, %" /></div>
+                  <div><label className="text-sm font-medium text-muted-foreground block mb-1">Target Value</label><input required type="number" name="target" value={formData.target} onChange={(e) => setFormData({ ...formData, target: e.target.value })} className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="100" /></div>
+                  <div><label className="text-sm font-medium text-muted-foreground block mb-1">Unit</label><input required type="text" name="unit" value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="trades, $, %" /></div>
                 </div>
-                <div><label className="text-sm font-medium text-muted-foreground block mb-1">Icon</label><select value={formData.iconName} onChange={(e) => setFormData({ ...formData, iconName: e.target.value })} className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none appearance-none"><option value="Target">Target</option><option value="Trophy">Trophy</option><option value="TrendingUp">Trending Up</option><option value="Calendar">Calendar</option></select></div>
-                <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50">{isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Create Goal'}</button>
+                <div><label className="text-sm font-medium text-muted-foreground block mb-1">Icon</label><select value={formData.iconName} onChange={(e) => setFormData({ ...formData, iconName: e.target.value })} className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none appearance-none"><option value="Target">Target</option><option value="Trophy">Trophy</option><option value="TrendingUp">Trending Up</option><option value="Calendar">Calendar</option></select></div>
+                <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50">{isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Create Goal'}</button>
               </form>
             </motion.div>
           </div>

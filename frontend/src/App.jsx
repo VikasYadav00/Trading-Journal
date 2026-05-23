@@ -63,12 +63,12 @@ function Hero3D() {
         <motion.div
           animate={{ z: [30, 50, 30] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-          className="absolute inset-4 bg-background/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md"
+          className="absolute inset-4 bg-background/80 border border-foreground/10 rounded-2xl p-6 flex flex-col justify-between shadow-2xl backdrop-blur-md"
         >
           <div className="flex justify-between items-center">
             <div className="space-y-2">
-              <div className="h-2 w-16 bg-white/20 rounded-full" />
-              <div className="h-4 w-24 bg-white/40 rounded-full" />
+              <div className="h-2 w-16 bg-foreground/20 rounded-full" />
+              <div className="h-4 w-24 bg-foreground/40 rounded-full" />
             </div>
             <Activity className="text-primary w-8 h-8" />
           </div>
@@ -97,7 +97,7 @@ function Hero3D() {
           </div>
           <div>
             <div className="text-xs text-muted-foreground">Win Rate</div>
-            <div className="font-bold text-lg text-white">68.5%</div>
+            <div className="font-bold text-lg text-foreground">68.5%</div>
           </div>
         </motion.div>
 
@@ -244,12 +244,12 @@ function QuoteSection() {
           <svg className="w-16 h-16 text-yellow-500/30 mb-8 mx-auto md:mx-0" fill="currentColor" viewBox="0 0 24 24">
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight mb-8">
             "The stock market is a device for transferring money from the <span className="text-red-500">impatient</span> to the <span className="text-[#a3e635]">patient</span>."
           </h2>
           <div className="flex items-center justify-center md:justify-start gap-4">
             <div className="w-12 h-1 bg-yellow-500/50 rounded-full" />
-            <p className="text-xl text-white/60 font-bold tracking-widest uppercase">Warren Buffett</p>
+            <p className="text-xl text-foreground/60 font-bold tracking-widest uppercase">Warren Buffett</p>
           </div>
         </div>
 
@@ -267,7 +267,7 @@ function QuoteSection() {
 // Temporary Landing Page to show the UI/UX direction
 function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#030712] text-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-[#030712] text-foreground flex flex-col relative overflow-hidden">
       {/* Premium Violet & Cyan Mesh Background */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/20 blur-[120px] pointer-events-none mix-blend-screen animate-pulse duration-[8000ms]" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-cyan-500/20 blur-[120px] pointer-events-none mix-blend-screen animate-pulse duration-[10000ms] delay-700" />
@@ -279,13 +279,13 @@ function LandingPage() {
       {/* Navbar */}
       <nav className="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold">
             T
           </div>
           <span className="text-xl font-bold tracking-tight">TradeJournal</span>
         </div>
         <div className="flex gap-4">
-          <Link to="/login" className="px-4 py-2 rounded-md hover:bg-white/5 transition-colors">Login</Link>
+          <Link to="/login" className="px-4 py-2 rounded-md hover:bg-foreground/5 transition-colors">Login</Link>
           <Link to="/register" className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25">
             Get Started
           </Link>
@@ -301,7 +301,7 @@ function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/60 mb-8 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 text-sm text-foreground/60 mb-8 backdrop-blur-sm"
           >
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             The Ultimate Trading Analytics Platform
@@ -323,7 +323,7 @@ function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/60 mb-10 max-w-xl"
+            className="text-lg md:text-xl text-foreground/60 mb-10 max-w-xl"
           >
             Track every trade, analyze your performance, and discover your edge with our premium, professional-grade journaling SaaS.
           </motion.p>
@@ -335,15 +335,15 @@ function LandingPage() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="flex flex-col gap-3"
           >
-            <h3 className="text-sm font-bold tracking-widest text-white/40 uppercase mb-2">5 Rules of Profitability</h3>
+            <h3 className="text-sm font-bold tracking-widest text-foreground/40 uppercase mb-2">5 Rules of Profitability</h3>
             {TRADING_RULES.map((rule, i) => (
               <motion.div
                 key={i}
                 whileHover={{ x: 10, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                className="flex items-center gap-4 bg-white/5 border border-white/10 px-5 py-3.5 rounded-xl backdrop-blur-sm transition-all w-fit max-w-full shadow-lg"
+                className="flex items-center gap-4 bg-foreground/5 border border-foreground/10 px-5 py-3.5 rounded-xl backdrop-blur-sm transition-all w-fit max-w-full shadow-lg"
               >
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center text-cyan-400 text-xs font-black shadow-[0_0_10px_rgba(139,92,246,0.3)]">{i + 1}</div>
-                <p className="text-xs md:text-sm font-bold text-white tracking-wide uppercase leading-tight">{rule}</p>
+                <p className="text-xs md:text-sm font-bold text-foreground tracking-wide uppercase leading-tight">{rule}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -376,14 +376,14 @@ function LandingPage() {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-700/20 to-violet-700/20 translate-y-1 translate-x-1 -z-10" />
 
               {/* Main Image Face */}
-              <div className="relative rounded-2xl overflow-hidden border-2 border-white/20 bg-background group">
+              <div className="relative rounded-2xl overflow-hidden border-2 border-foreground/20 bg-background group">
                 <img
                   src="/bull-bear.png"
                   alt="Bull vs Bear"
                   className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 {/* Glossy Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/30 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-foreground/5 via-transparent to-foreground/30 pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/60 via-transparent to-transparent pointer-events-none" />
               </div>
             </motion.div>

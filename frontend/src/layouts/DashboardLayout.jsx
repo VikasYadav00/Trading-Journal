@@ -46,7 +46,7 @@ export default function DashboardLayout() {
       {/* Sidebar - Desktop */}
       <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card/50 backdrop-blur-xl">
         <div className="h-16 flex items-center px-6 border-b border-border">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold mr-2">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold mr-2">
             T
           </div>
           <span className="text-xl font-bold tracking-tight">TradeJournal</span>
@@ -62,7 +62,7 @@ export default function DashboardLayout() {
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive 
                     ? 'bg-primary text-primary-foreground font-medium shadow-md shadow-primary/20' 
-                    : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
                 }`}
               >
                 <item.icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
@@ -75,7 +75,7 @@ export default function DashboardLayout() {
         <div className="p-4 border-t border-border flex flex-col gap-2">
           <button 
             onClick={toggleTheme}
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all w-full"
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-all w-full"
           >
             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
@@ -93,7 +93,7 @@ export default function DashboardLayout() {
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 border-b border-border bg-background/80 backdrop-blur-md z-40 flex items-center justify-between px-4">
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold mr-2">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold mr-2">
             T
           </div>
           <span className="text-xl font-bold tracking-tight">TradeJournal</span>
@@ -143,7 +143,7 @@ export default function DashboardLayout() {
                       className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                         isActive 
                           ? 'bg-primary text-primary-foreground font-medium' 
-                          : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
                       }`}
                     >
                       <item.icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : 'text-muted-foreground'}`} />

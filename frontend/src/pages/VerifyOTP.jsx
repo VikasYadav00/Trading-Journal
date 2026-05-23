@@ -155,8 +155,8 @@ export default function VerifyOTP() {
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2 bg-black/20 focus:outline-none transition-all
-                    ${digit ? 'border-primary text-primary' : 'border-white/10'}
+                  className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2 bg-foreground/5 focus:outline-none transition-all
+                    ${digit ? 'border-primary text-primary' : 'border-foreground/10'}
                     focus:border-primary focus:shadow-[0_0_0_3px_rgba(59,130,246,0.15)]`}
                 />
               ))}

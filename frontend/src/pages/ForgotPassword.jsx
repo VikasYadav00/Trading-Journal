@@ -73,7 +73,7 @@ export default function ForgotPassword() {
                     <input 
                       type="email" 
                       placeholder="trader@example.com"
-                      className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                      className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -100,7 +100,7 @@ export default function ForgotPassword() {
                   <Lock className="w-6 h-6" />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">Reset Password</h2>
-                <p className="text-sm text-muted-foreground mt-2">We sent a 6-digit code to <span className="text-white font-medium">{email}</span></p>
+                <p className="text-sm text-muted-foreground mt-2">We sent a 6-digit code to <span className="text-foreground font-medium">{email}</span></p>
               </div>
 
               {isSuccess && step === 2 && (
@@ -116,7 +116,7 @@ export default function ForgotPassword() {
                   <input 
                     type="text" 
                     placeholder="123456"
-                    className="w-full bg-black/20 border border-white/10 rounded-lg py-3 px-4 text-center text-xl tracking-widest focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
+                    className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-3 px-4 text-center text-xl tracking-widest focus:outline-none focus:ring-2 focus:ring-primary transition-all font-mono"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     maxLength="6"
@@ -131,7 +131,7 @@ export default function ForgotPassword() {
                     <input 
                       type="password" 
                       placeholder="Enter new password"
-                      className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                      className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       required

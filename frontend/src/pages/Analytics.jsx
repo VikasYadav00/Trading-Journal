@@ -8,6 +8,7 @@ import { Line, Doughnut } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrades } from '../features/trades/tradeSlice';
 import { Loader2 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 ChartJS.register(
   CategoryScale, LinearScale, PointElement, LineElement, BarElement,
@@ -17,6 +18,7 @@ ChartJS.register(
 export default function Analytics() {
   const dispatch = useDispatch();
   const { trades, isLoading } = useSelector((state) => state.trades);
+  const { theme } = useTheme();
 
   useEffect(() => {
     dispatch(getTrades());
@@ -89,17 +91,22 @@ export default function Analytics() {
     return { lineChartData: lineData, donutData: dData, strategyStats: sStats };
   }, [trades]);
 
+  const isLight = theme === 'light';
+  const gridColor = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+  const textColor = isLight ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.5)';
+  const legendTextColor = isLight ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.7)';
+
   const lineChartOptions = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false }, title: { display: false } },
     scales: {
-      y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: 'rgba(255,255,255,0.5)', callback: v => `$${v}` } },
-      x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.5)' } }
+      y: { grid: { color: gridColor }, ticks: { color: textColor, callback: v => `$${v}` } },
+      x: { grid: { display: false }, ticks: { color: textColor } }
     }
   };
 
   const donutOptions = {
-    plugins: { legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', padding: 20 } } }
+    plugins: { legend: { position: 'bottom', labels: { color: legendTextColor, padding: 20 } } }
   };
 
   return (
@@ -112,7 +119,7 @@ export default function Analytics() {
       {isLoading ? (
         <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
       ) : trades.filter(t => t.status !== 'Open').length === 0 ? (
-        <div className="glass-card rounded-xl p-12 text-center text-muted-foreground border border-white/5">
+        <div className="glass-card rounded-xl p-12 text-center text-muted-foreground border border-foreground/5">
           <p className="text-lg">Not enough data to display analytics.</p>
           <p className="text-sm mt-2">Close some trades to see your performance metrics here.</p>
         </div>
@@ -121,7 +128,7 @@ export default function Analytics() {
           {/* Main Equity Curve */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="lg:col-span-2 glass-card rounded-xl p-6 h-[450px] flex flex-col border border-white/5 shadow-xl"
+            className="lg:col-span-2 glass-card rounded-xl p-6 h-[450px] flex flex-col border border-foreground/5 shadow-xl"
           >
             <h3 className="text-lg font-semibold mb-4">Cumulative PnL Curve</h3>
             <div className="flex-1 w-full relative">
@@ -132,7 +139,7 @@ export default function Analytics() {
           {/* Win Rate Donut */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="glass-card rounded-xl p-6 h-[450px] flex flex-col items-center border border-white/5 shadow-xl"
+            className="glass-card rounded-xl p-6 h-[450px] flex flex-col items-center border border-foreground/5 shadow-xl"
           >
             <h3 className="text-lg font-semibold mb-4 w-full text-left">Win/Loss Ratio</h3>
             <div className="flex-1 w-full max-w-[250px] flex items-center justify-center">
@@ -143,14 +150,14 @@ export default function Analytics() {
           {/* Performance by Strategy Table */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="lg:col-span-3 glass-card rounded-xl overflow-hidden border border-white/5 shadow-xl"
+            className="lg:col-span-3 glass-card rounded-xl overflow-hidden border border-foreground/5 shadow-xl"
           >
-            <div className="p-6 border-b border-white/10">
+            <div className="p-6 border-b border-foreground/10">
               <h3 className="text-lg font-semibold">Performance by Strategy / Market</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-xs text-muted-foreground uppercase bg-white/5 border-b border-white/10">
+                <thead className="text-xs text-muted-foreground uppercase bg-foreground/5 border-b border-foreground/10">
                   <tr>
                     <th className="px-6 py-4">Strategy / Category</th>
                     <th className="px-6 py-4">Trades</th>
@@ -161,8 +168,8 @@ export default function Analytics() {
                 </thead>
                 <tbody>
                   {strategyStats.map((stat, idx) => (
-                    <tr key={idx} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="px-6 py-4 font-medium text-white">{stat.name}</td>
+                    <tr key={idx} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
+                      <td className="px-6 py-4 font-medium text-foreground">{stat.name}</td>
                       <td className="px-6 py-4 text-muted-foreground">{stat.count}</td>
                       <td className={`px-6 py-4 font-medium ${parseFloat(stat.winRate) >= 50 ? 'text-success' : 'text-destructive'}`}>
                         {stat.winRate}%

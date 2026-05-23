@@ -74,11 +74,11 @@ export default function TradeHistory() {
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
             <input type="text" placeholder="Search trades..."
-              className="w-full bg-black/20 border border-white/10 rounded-lg py-2 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}
-            className="bg-black/20 border border-white/10 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all">
+            className="bg-foreground/5 border border-foreground/10 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all">
             <option>All</option><option>Win</option><option>Loss</option><option>Open</option><option>Closed</option>
           </select>
           <Link to="/dashboard/add-trade"
@@ -88,7 +88,7 @@ export default function TradeHistory() {
         </div>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-xl overflow-hidden shadow-2xl border border-white/5">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-xl overflow-hidden shadow-2xl border border-foreground/5">
         {isLoading && trades.length === 0 ? (
           <div className="flex items-center justify-center py-24">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -104,7 +104,7 @@ export default function TradeHistory() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-xs text-muted-foreground uppercase bg-white/5 border-b border-white/10">
+                <thead className="text-xs text-muted-foreground uppercase bg-foreground/5 border-b border-foreground/10">
                   <tr>
                     <th className="px-6 py-4">Asset</th>
                     <th className="px-6 py-4">Direction</th>
@@ -117,9 +117,9 @@ export default function TradeHistory() {
                 </thead>
                 <tbody>
                   {filtered.map((trade) => (
-                    <tr key={trade._id} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                    <tr key={trade._id} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors group">
                       <td className="px-6 py-4">
-                        <div className="font-bold text-white">{trade.asset}</div>
+                        <div className="font-bold text-foreground">{trade.asset}</div>
                         <div className="text-xs text-muted-foreground">{trade.marketCategory}</div>
                       </td>
                       <td className="px-6 py-4">
@@ -128,7 +128,7 @@ export default function TradeHistory() {
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="font-medium text-white">E: {trade.entryPrice}</div>
+                        <div className="font-medium text-foreground">E: {trade.entryPrice}</div>
                         <div className="text-muted-foreground text-xs">X: {trade.exitPrice || '--'}</div>
                       </td>
                       <td className="px-6 py-4 font-medium">
@@ -157,7 +157,7 @@ export default function TradeHistory() {
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end items-center gap-3">
                           {trade.status === 'Open' && (
-                            <button onClick={() => setCloseModalTrade(trade)} className="text-xs font-semibold bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-md transition-colors">
+                            <button onClick={() => setCloseModalTrade(trade)} className="text-xs font-semibold bg-foreground/10 hover:bg-foreground/20 text-foreground px-3 py-1.5 rounded-md transition-colors">
                               Close Trade
                             </button>
                           )}
@@ -172,7 +172,7 @@ export default function TradeHistory() {
                 </tbody>
               </table>
             </div>
-            <div className="p-4 border-t border-white/10 flex justify-between items-center text-sm text-muted-foreground">
+            <div className="p-4 border-t border-foreground/10 flex justify-between items-center text-sm text-muted-foreground">
               <span>Showing {filtered.length} of {trades.length} trades</span>
             </div>
           </>
@@ -183,23 +183,23 @@ export default function TradeHistory() {
       <AnimatePresence>
         {closeModalTrade && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md border border-white/10 shadow-2xl relative">
-              <button onClick={() => setCloseModalTrade(null)} className="absolute top-4 right-4 text-muted-foreground hover:text-white transition-colors"><X className="w-5 h-5" /></button>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md border border-foreground/10 shadow-2xl relative">
+              <button onClick={() => setCloseModalTrade(null)} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"><X className="w-5 h-5" /></button>
               <h2 className="text-xl font-bold mb-2">Close Trade</h2>
-              <p className="text-sm text-muted-foreground mb-6">Closing <span className="font-bold text-white">{closeModalTrade.asset}</span> ({closeModalTrade.direction} @ {closeModalTrade.entryPrice})</p>
+              <p className="text-sm text-muted-foreground mb-6">Closing <span className="font-bold text-foreground">{closeModalTrade.asset}</span> ({closeModalTrade.direction} @ {closeModalTrade.entryPrice})</p>
               
               <form onSubmit={handleCloseSubmit} className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-muted-foreground block mb-1">Exit Price</label>
                   <input required type="number" step="any" value={closeData.exitPrice} onChange={(e) => setCloseData({ ...closeData, exitPrice: e.target.value })} 
-                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. 1.0543" />
+                    className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. 1.0543" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground block mb-1">Custom PnL (Optional)</label>
                   <input type="number" step="any" value={closeData.pnl} onChange={(e) => setCloseData({ ...closeData, pnl: e.target.value })} 
-                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="Auto-calculated if left blank" />
+                    className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="Auto-calculated if left blank" />
                 </div>
-                <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
+                <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
                   {isLoading && <Loader2 className="w-4 h-4 animate-spin" />} Close Trade
                 </button>
               </form>

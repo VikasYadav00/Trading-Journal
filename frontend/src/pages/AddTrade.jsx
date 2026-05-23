@@ -86,18 +86,18 @@ export default function AddTrade() {
               <label className="text-sm font-medium">Trade Title</label>
               <input name="tradeTitle" value={formData.tradeTitle} onChange={handleChange}
                 placeholder="e.g. Breakout on EURUSD"
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" required />
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" required />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Asset / Ticker</label>
               <input name="asset" value={formData.asset} onChange={handleChange}
                 placeholder="EURUSD, AAPL, BTC"
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" required />
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" required />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Market Category</label>
               <select name="marketCategory" value={formData.marketCategory} onChange={handleChange}
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                 <option>Forex</option><option>Crypto</option><option>Stocks</option><option>Indices</option><option>Commodities</option>
               </select>
             </div>
@@ -107,7 +107,7 @@ export default function AddTrade() {
                 {['Long', 'Short'].map((dir) => (
                   <label key={dir} className="flex-1 cursor-pointer">
                     <input type="radio" name="direction" value={dir} checked={formData.direction === dir} onChange={handleChange} className="peer sr-only" />
-                    <div className={`p-3 text-center rounded-lg border transition-all peer-checked:font-medium ${dir === 'Long' ? 'border-white/10 peer-checked:bg-success/20 peer-checked:border-success peer-checked:text-success' : 'border-white/10 peer-checked:bg-destructive/20 peer-checked:border-destructive peer-checked:text-destructive'}`}>
+                    <div className={`p-3 text-center rounded-lg border transition-all peer-checked:font-medium ${dir === 'Long' ? 'border-foreground/10 peer-checked:bg-success/20 peer-checked:border-success peer-checked:text-success' : 'border-foreground/10 peer-checked:bg-destructive/20 peer-checked:border-destructive peer-checked:text-destructive'}`}>
                       {dir === 'Long' ? 'Long / Buy' : 'Short / Sell'}
                     </div>
                   </label>
@@ -117,12 +117,12 @@ export default function AddTrade() {
             <div className="space-y-2">
               <label className="text-sm font-medium">Entry Date</label>
               <input type="date" name="entryDate" value={formData.entryDate} onChange={handleChange}
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" required />
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" required />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Status</label>
               <select name="status" value={formData.status} onChange={handleChange}
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                 <option>Open</option><option>Closed</option>
               </select>
             </div>
@@ -148,7 +148,7 @@ export default function AddTrade() {
               <div key={name} className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">{label}</label>
                 <input type="number" step="any" name={name} value={formData[name]} onChange={handleChange}
-                  className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   required={name === 'entryPrice' || name === 'quantity'} />
               </div>
             ))}
@@ -177,15 +177,15 @@ export default function AddTrade() {
                 <label className="text-sm font-medium">Trade Notes / Lessons</label>
                 <textarea name="notes" value={formData.notes} onChange={handleChange}
                   rows="4" placeholder="What was your thesis? What went well? What could be improved?"
-                  className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"></textarea>
+                  className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"></textarea>
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Chart Screenshots</label>
-              <div className="relative border-2 border-dashed border-white/20 rounded-xl h-44 flex flex-col items-center justify-center text-muted-foreground hover:bg-white/5 hover:border-primary/40 transition-colors cursor-pointer overflow-hidden">
+              <div className="relative border-2 border-dashed border-foreground/20 rounded-xl h-44 flex flex-col items-center justify-center text-muted-foreground hover:bg-foreground/5 hover:border-primary/40 transition-colors cursor-pointer overflow-hidden">
                 {file ? (
                   <div className="w-full h-full flex flex-col items-center justify-center p-4">
-                    <p className="font-medium text-white truncate max-w-[200px] mb-2">{file.name}</p>
+                    <p className="font-medium text-foreground truncate max-w-[200px] mb-2">{file.name}</p>
                     <p className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                   </div>
                 ) : (
@@ -208,7 +208,7 @@ export default function AddTrade() {
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex justify-end gap-4">
           <button type="button" onClick={() => navigate('/dashboard/trades')}
-            className="px-6 py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors">
+            className="px-6 py-3 rounded-lg border border-foreground/10 hover:bg-foreground/5 transition-colors">
             Cancel
           </button>
           <button type="submit" disabled={isLoading}

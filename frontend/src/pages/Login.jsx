@@ -35,7 +35,7 @@ export default function Login() {
         className="w-full max-w-md glass-card rounded-2xl p-8 z-10"
       >
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-primary mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/30">
+          <div className="w-12 h-12 rounded-xl bg-primary mx-auto mb-4 flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg shadow-primary/30">
             T
           </div>
           <h2 className="text-2xl font-bold tracking-tight">Welcome Back</h2>
@@ -57,7 +57,7 @@ export default function Login() {
               <input 
                 type="email" 
                 placeholder="trader@example.com"
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
                 required
@@ -75,7 +75,7 @@ export default function Login() {
               <input 
                 type="password" 
                 placeholder="••••••••"
-                className="w-full bg-black/20 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
                 required
