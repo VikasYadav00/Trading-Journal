@@ -93,6 +93,43 @@ function Hero3D() {
   );
 }
 
+function Candlestick3D() {
+  return (
+    <div className="relative w-full max-w-lg h-[400px] flex items-center justify-center mx-auto" style={{ perspective: 1200 }}>
+      <div style={{ transformStyle: 'preserve-3d', transform: 'rotateX(-20deg) rotateZ(10deg)' }}>
+        <motion.div 
+          animate={{ rotateY: [0, 360] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          className="relative w-[80px] h-[200px]"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {/* Upper Wick (Center Z) */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-[-60px] w-2 h-[60px] bg-gradient-to-t from-green-400 to-green-300 shadow-[0_0_15px_rgba(74,222,128,0.8)]" style={{ transform: 'translateZ(0px)' }} />
+          
+          {/* Body (3D Box) */}
+          <div className="absolute top-0 left-0 w-[80px] h-[200px]" style={{ transformStyle: 'preserve-3d' }}>
+            {/* Front */}
+            <div className="absolute inset-0 bg-green-500/80 border border-green-400 shadow-[0_0_30px_rgba(34,197,94,0.6)] backdrop-blur-sm" style={{ transform: 'translateZ(40px)' }} />
+            {/* Back */}
+            <div className="absolute inset-0 bg-green-600/80 border border-green-500" style={{ transform: 'translateZ(-40px)' }} />
+            {/* Left */}
+            <div className="absolute top-0 left-0 w-[80px] h-[200px] bg-green-500/60 border border-green-400 origin-left" style={{ transform: 'rotateY(-90deg)' }} />
+            {/* Right */}
+            <div className="absolute top-0 right-0 w-[80px] h-[200px] bg-green-400/70 border border-green-300 origin-right" style={{ transform: 'rotateY(90deg)' }} />
+            {/* Top */}
+            <div className="absolute top-0 left-0 w-[80px] h-[80px] bg-green-300/80 border border-green-200 origin-top" style={{ transform: 'rotateX(90deg)' }} />
+            {/* Bottom */}
+            <div className="absolute bottom-0 left-0 w-[80px] h-[80px] bg-green-700/80 border border-green-600 origin-bottom" style={{ transform: 'rotateX(-90deg)' }} />
+          </div>
+          
+          {/* Lower Wick (Center Z) */}
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-[-80px] w-2 h-[80px] bg-gradient-to-b from-green-400 to-green-300 shadow-[0_0_15px_rgba(74,222,128,0.8)]" style={{ transform: 'translateZ(0px)' }} />
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 // Temporary Landing Page to show the UI/UX direction
 function LandingPage() {
   return (
@@ -153,6 +190,53 @@ function LandingPage() {
         <Hero3D />
 
       </main>
+
+      {/* Features Section with 3D Element */}
+      <section className="w-full py-32 relative z-10 bg-background/50 backdrop-blur-lg border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Visualize the <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">Bull Market.</span>
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Our cutting-edge analytics engine goes beyond flat 2D charts. Identify patterns, understand market sentiment, and pinpoint your exact edge with deep, multi-dimensional trade visualization.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Deep-dive performance metrics",
+                  "AI-driven psychological analysis",
+                  "Real-time edge detection"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-foreground/90 font-medium text-lg">
+                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-sm">
+                      ✓
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+          <div className="flex justify-center">
+             <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+             >
+              <Candlestick3D />
+             </motion.div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
