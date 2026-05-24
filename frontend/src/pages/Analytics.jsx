@@ -29,13 +29,13 @@ export default function Analytics() {
     const closed = trades.filter(t => t.status !== 'Open');
 
     // 1. Equity Curve Data
-    const sortedTrades = [...closed].sort((a, b) => new Date(a.entryDate) - new Date(b.entryDate));
+    const sortedTrades = [...closed].sort((a, b) => new Date(a.entryDate || a.createdAt) - new Date(b.entryDate || b.createdAt));
     let runningPnL = 0;
     const equityPoints = sortedTrades.map(t => {
       runningPnL += (t.pnl || 0);
       return runningPnL;
     });
-    const equityLabels = sortedTrades.map(t => new Date(t.entryDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+    const equityLabels = sortedTrades.map(t => new Date(t.entryDate || t.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
 
     const lineData = {
       labels: equityLabels.length ? equityLabels : ['Start'],

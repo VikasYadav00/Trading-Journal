@@ -57,7 +57,10 @@ export default function Dashboard() {
   const last10 = closed.slice(-10);
   let running = 0;
   const equityPoints = last10.map(t => { running += (t.pnl || 0); return running; });
-  const equityLabels = last10.map((t, i) => t.asset || `Trade ${i+1}`);
+  const equityLabels = last10.map((t, i) => {
+    const dateStr = new Date(t.entryDate || t.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    return `${t.asset} (${dateStr})`;
+  });
 
   const lineData = {
     labels: equityLabels.length ? equityLabels : ['Start'],

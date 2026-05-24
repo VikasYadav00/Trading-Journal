@@ -106,6 +106,7 @@ export default function TradeHistory() {
               <table className="w-full text-sm text-left">
                 <thead className="text-xs text-muted-foreground uppercase bg-foreground/5 border-b border-foreground/10">
                   <tr>
+                    <th className="px-6 py-4">Date</th>
                     <th className="px-6 py-4">Asset</th>
                     <th className="px-6 py-4">Direction</th>
                     <th className="px-6 py-4">Entry / Exit</th>
@@ -118,6 +119,11 @@ export default function TradeHistory() {
                 <tbody>
                   {filtered.map((trade) => (
                     <tr key={trade._id} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors group">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="font-medium text-foreground">
+                          {new Date(trade.entryDate || trade.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </div>
+                      </td>
                       <td className="px-6 py-4">
                         <div className="font-bold text-foreground">{trade.asset}</div>
                         <div className="text-xs text-muted-foreground">{trade.marketCategory}</div>
