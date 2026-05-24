@@ -14,7 +14,7 @@ import Settings from './pages/Settings.jsx';
 import Goals from './pages/Goals.jsx';
 import VerifyOTP from './pages/VerifyOTP.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
-import { ThemeProvider } from './context/ThemeContext.jsx';
+import { ThemeProvider, useTheme } from './context/ThemeContext.jsx';
 
 function MouseTilt({ children, offset = 20, className = "" }) {
   const x = useMotionValue(0);
@@ -266,6 +266,12 @@ function QuoteSection() {
 
 // Temporary Landing Page to show the UI/UX direction
 function LandingPage() {
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme('dark');
+  }, [setTheme]);
+
   return (
     <div className="min-h-screen bg-[#030712] text-foreground flex flex-col relative overflow-hidden">
       {/* Premium Violet & Cyan Mesh Background */}

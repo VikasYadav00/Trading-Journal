@@ -4,11 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, LogIn, AlertCircle, Loader2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme('dark');
+  }, [setTheme]);
 
   const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
 
