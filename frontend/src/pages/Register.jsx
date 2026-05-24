@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Globe, UserPlus, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Phone, Globe, UserPlus, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 import { useTheme } from '../context/ThemeContext';
 
@@ -10,6 +10,8 @@ export default function Register() {
     fullName: '', username: '', email: '',
     phoneNumber: '', country: '', password: '', confirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -115,18 +117,32 @@ export default function Register() {
               <label className="text-sm font-medium">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <input type="password" placeholder="••••••••"
-                  className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                <input type={showPassword ? "text" : "password"} placeholder="••••••••"
+                  className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-12 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} required />
+                <button 
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Confirm Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <input type="password" placeholder="••••••••"
-                  className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                <input type={showConfirmPassword ? "text" : "password"} placeholder="••••••••"
+                  className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 pl-10 pr-12 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   value={formData.confirmPassword} onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})} required />
+                <button 
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
               </div>
             </div>
           </div>
