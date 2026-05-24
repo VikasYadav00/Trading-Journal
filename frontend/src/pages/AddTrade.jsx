@@ -102,7 +102,11 @@ export default function AddTrade() {
               <label className="text-sm font-medium">Market Category</label>
               <select name="marketCategory" value={formData.marketCategory} onChange={handleChange}
                 className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
-                <option>Forex</option><option>Crypto</option><option>Stocks</option><option>Indices</option><option>Commodities</option>
+                <option className="bg-background text-foreground">Forex</option>
+                <option className="bg-background text-foreground">Crypto</option>
+                <option className="bg-background text-foreground">Stocks</option>
+                <option className="bg-background text-foreground">Indices</option>
+                <option className="bg-background text-foreground">Commodities</option>
               </select>
             </div>
             <div className="space-y-2">
@@ -127,7 +131,8 @@ export default function AddTrade() {
               <label className="text-sm font-medium">Status</label>
               <select name="status" value={formData.status} onChange={handleChange}
                 className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
-                <option>Open</option><option>Closed</option>
+                <option className="bg-background text-foreground">Open</option>
+                <option className="bg-background text-foreground">Closed</option>
               </select>
             </div>
           </div>

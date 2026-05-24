@@ -79,7 +79,11 @@ export default function TradeHistory() {
           </div>
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}
             className="bg-foreground/5 border border-foreground/10 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all">
-            <option>All</option><option>Win</option><option>Loss</option><option>Open</option><option>Closed</option>
+            <option className="bg-background text-foreground">All</option>
+            <option className="bg-background text-foreground">Win</option>
+            <option className="bg-background text-foreground">Loss</option>
+            <option className="bg-background text-foreground">Open</option>
+            <option className="bg-background text-foreground">Closed</option>
           </select>
           <Link to="/dashboard/add-trade"
             className="flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 whitespace-nowrap">
