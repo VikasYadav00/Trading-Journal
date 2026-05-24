@@ -22,6 +22,11 @@ export default function Dashboard() {
   const [closeModalTrade, setCloseModalTrade] = useState(null);
   const [closeData, setCloseData] = useState({ exitPrice: '', pnl: '' });
 
+  const [selectedMonthStr, setSelectedMonthStr] = useState(() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  });
+
   useEffect(() => { dispatch(getTrades()); }, [dispatch]);
 
   const handleCloseSubmit = (e) => {
@@ -109,10 +114,10 @@ export default function Dashboard() {
   };
 
   // --- MONTHLY RECAP CALCULATIONS ---
-  const today = new Date();
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
-  const monthName = today.toLocaleString('default', { month: 'long' });
+  const selectedDate = new Date(`${selectedMonthStr}-01T00:00:00`);
+  const currentMonth = selectedDate.getMonth();
+  const currentYear = selectedDate.getFullYear();
+  const monthName = selectedDate.toLocaleString('default', { month: 'long' });
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
   const currentMonthClosedTrades = closed.filter(t => {
@@ -216,8 +221,10 @@ export default function Dashboard() {
                 <p className="text-xs text-foreground/50 font-medium">{monthName} {currentYear}</p>
               </div>
             </div>
-            <div className="w-8 h-8 bg-foreground/5 rounded-lg flex items-center justify-center">
+            <div className="relative w-8 h-8 bg-foreground/5 rounded-lg flex items-center justify-center cursor-pointer hover:bg-foreground/10 transition-colors">
               <Calendar className="w-4 h-4 text-foreground/70" />
+              <input type="month" value={selectedMonthStr} onChange={(e) => setSelectedMonthStr(e.target.value)}
+                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" title="Select Month" />
             </div>
           </div>
           
