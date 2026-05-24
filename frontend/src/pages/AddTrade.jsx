@@ -16,7 +16,8 @@ export default function AddTrade() {
     entryPrice: '', exitPrice: '', stopLoss: '', takeProfit: '',
     quantity: '', setupType: '', timeframe: '15m', status: 'Open',
     entryDate: new Date().toISOString().split('T')[0],
-    entryTime: '', confidenceLevel: 5, notes: ''
+    entryTime: '', confidenceLevel: 5, notes: '',
+    strikePrice: '', optionType: 'CE (Call)'
   });
   const [file, setFile] = useState(null);
 
@@ -39,8 +40,18 @@ export default function AddTrade() {
     submitted.current = true; // mark that this component initiated the dispatch
     
     const submitData = new FormData();
-    Object.keys(formData).forEach(key => {
-      if (formData[key]) submitData.append(key, formData[key]);
+    const finalData = { ...formData };
+
+    // Auto-append Strike and Option Type to Asset for Options trading so it saves securely to backend
+    if (finalData.marketCategory === 'Options (F&O)' && finalData.strikePrice) {
+      finalData.asset = `${finalData.asset} - ${finalData.strikePrice} ${finalData.optionType.split(' ')[0]}`;
+    }
+
+    Object.keys(finalData).forEach(key => {
+      // Don't send these frontend-only fields individually since we merged them into asset
+      if (key !== 'strikePrice' && key !== 'optionType') {
+        if (finalData[key]) submitData.append(key, finalData[key]);
+      }
     });
     if (file) {
       submitData.append('screenshot', file);
@@ -107,6 +118,7 @@ export default function AddTrade() {
                 <option className="bg-background text-foreground">Stocks</option>
                 <option className="bg-background text-foreground">Indices</option>
                 <option className="bg-background text-foreground">Commodities</option>
+                <option className="bg-background text-foreground">Options (F&O)</option>
               </select>
             </div>
             <div className="space-y-2">
@@ -153,7 +165,7 @@ export default function AddTrade() {
             )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[['entryPrice','Entry Price'],['stopLoss','Stop Loss'],['takeProfit','Take Profit'],['quantity','Quantity / Lot Size']].map(([name, label]) => (
+            {[['entryPrice','Entry Price / Premium'],['stopLoss','Stop Loss'],['takeProfit','Take Profit'],['quantity','Quantity / Lot Size']].map(([name, label]) => (
               <div key={name} className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">{label}</label>
                 <input type="number" step="any" name={name} value={formData[name]} onChange={handleChange}
@@ -163,6 +175,27 @@ export default function AddTrade() {
               </div>
             ))}
           </div>
+
+          {/* Options Specific Fields */}
+          {formData.marketCategory === 'Options (F&O)' && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 border-t border-foreground/10 pt-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">Strike Price</label>
+                <input type="number" step="any" name="strikePrice" value={formData.strikePrice} onChange={handleChange}
+                  onWheel={(e) => e.target.blur()}
+                  placeholder="e.g. 24600"
+                  className="w-full bg-primary/5 border border-primary/20 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">Option Type</label>
+                <select name="optionType" value={formData.optionType} onChange={handleChange}
+                  className="w-full bg-primary/5 border border-primary/20 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
+                  <option className="bg-background text-foreground">CE (Call)</option>
+                  <option className="bg-background text-foreground">PE (Put)</option>
+                </select>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Psychology */}
