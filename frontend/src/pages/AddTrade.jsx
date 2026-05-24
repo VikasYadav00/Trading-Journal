@@ -21,12 +21,16 @@ export default function AddTrade() {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
+    // Clear any leftover success/error states when mounting
+    dispatch(resetTrades());
+  }, [dispatch]);
+
+  useEffect(() => {
     // Only navigate if WE triggered the submission
     if (isSuccess && submitted.current) {
       setTimeout(() => { navigate('/dashboard/trades'); }, 1200);
     }
-    return () => { dispatch(resetTrades()); };
-  }, [isSuccess, navigate, dispatch]);
+  }, [isSuccess, navigate]);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
