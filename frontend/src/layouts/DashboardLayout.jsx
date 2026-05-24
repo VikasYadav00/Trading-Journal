@@ -34,10 +34,11 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setTheme } = useTheme();
 
   const handleLogout = () => {
     dispatch(logout());
+    setTheme('dark');
     navigate('/login');
   };
 
