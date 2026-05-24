@@ -148,6 +148,7 @@ export default function AddTrade() {
               <div key={name} className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">{label}</label>
                 <input type="number" step="any" name={name} value={formData[name]} onChange={handleChange}
+                  onWheel={(e) => e.target.blur()}
                   className="w-full bg-foreground/5 border border-foreground/10 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   required={name === 'entryPrice' || name === 'quantity'} />
               </div>

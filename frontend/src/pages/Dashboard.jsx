@@ -401,11 +401,13 @@ export default function Dashboard() {
                 <div>
                   <label className="text-sm font-medium text-muted-foreground block mb-1">Exit Price</label>
                   <input required type="number" step="any" value={closeData.exitPrice} onChange={(e) => setCloseData({ ...closeData, exitPrice: e.target.value })} 
+                    onWheel={(e) => e.target.blur()}
                     className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="e.g. 1.0543" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground block mb-1">Custom PnL (Optional)</label>
                   <input type="number" step="any" value={closeData.pnl} onChange={(e) => setCloseData({ ...closeData, pnl: e.target.value })} 
+                    onWheel={(e) => e.target.blur()}
                     className="w-full bg-foreground/5 border border-foreground/10 rounded-lg px-4 py-2.5 focus:border-primary outline-none" placeholder="Auto-calculated if left blank" />
                 </div>
                 <button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-lg shadow-lg shadow-primary/25 mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
