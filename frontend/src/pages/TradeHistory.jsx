@@ -116,6 +116,7 @@ export default function TradeHistory() {
                     <th className="px-6 py-4">Entry / Exit</th>
                     <th className="px-6 py-4">PnL</th>
                     <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4">Psychology & Notes</th>
                     <th className="px-6 py-4">Screenshot</th>
                     <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
@@ -154,6 +155,14 @@ export default function TradeHistory() {
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-2.5 py-1 rounded-md text-xs font-semibold ${statusColor(trade.status)}`}>{trade.status}</span>
+                      </td>
+                      <td className="px-6 py-4 max-w-[200px]">
+                        {trade.confidenceLevel && (
+                          <div className="text-xs font-semibold text-primary mb-1">Conf: {trade.confidenceLevel}/10</div>
+                        )}
+                        <div className="text-xs text-muted-foreground truncate" title={trade.notes}>
+                          {trade.notes || '--'}
+                        </div>
                       </td>
                       <td className="px-6 py-4">
                         {trade.screenshot ? (
