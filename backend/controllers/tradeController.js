@@ -112,10 +112,10 @@ export const syncTrades = async (req, res) => {
       });
     }
 
-    // Check if we already have trades to avoid inserting duplicates on multiple syncs
-    const existingCount = await Trade.countDocuments({ user: req.user.id });
-    if (existingCount > 0) {
-      // If there are already trades, just return them to simulate successful refresh
+    // Check if we already have synced trades to avoid inserting duplicates on multiple syncs
+    const syncedCount = await Trade.countDocuments({ user: req.user.id, notes: 'Synced from Delta Exchange via API' });
+    if (syncedCount > 0) {
+      // If they are already synced, just return all trades to simulate successful refresh
       const trades = await Trade.find({ user: req.user.id }).sort('-createdAt');
       return res.status(200).json({ success: true, count: trades.length, data: trades });
     }

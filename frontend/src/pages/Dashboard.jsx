@@ -316,16 +316,18 @@ export default function Dashboard() {
   const realBiggestWin = winsSorted.length > 0 ? winsSorted[0].pnl : null;
 
   // --- STATS MERGING (Database values if present, else fall back to mockup parameters) ---
-  const todayValue = realNetPnL !== 0 ? realNetPnL : 4142.00;
-  const balanceValue = realNetPnL !== 0 ? (15000 + realNetPnL) : 19398.24;
-  const totalPnLValue = realNetPnL !== 0 ? realNetPnL : 9398.24;
-  const winRateValue = realWinRate !== null ? `${realWinRate}%` : '48%';
-  const tradesCountValue = realTradesCount > 0 ? realTradesCount : 193;
-  const openCountValue = realOpenCount > 0 ? realOpenCount : 3;
-  const streakValue = realStreak > 0 ? realStreak : 5;
-  const profitFactorValue = realProfitFactor !== null ? realProfitFactor : '1.90';
-  const biggestWinValue = realBiggestWin !== null ? realBiggestWin : 2353.20;
-  const bestDayValue = realBiggestWin !== null ? realBiggestWin * 1.15 : 4634.00;
+  const hasRealTrades = realTradesCount > 0;
+
+  const todayValue = hasRealTrades ? realNetPnL : 4142.00;
+  const balanceValue = hasRealTrades ? (15000 + realNetPnL) : 19398.24;
+  const totalPnLValue = hasRealTrades ? realNetPnL : 9398.24;
+  const winRateValue = hasRealTrades ? `${realWinRate}%` : '48%';
+  const tradesCountValue = hasRealTrades ? realTradesCount : 193;
+  const openCountValue = hasRealTrades ? realOpenCount : 3;
+  const streakValue = hasRealTrades ? realStreak : 5;
+  const profitFactorValue = hasRealTrades && realProfitFactor !== null ? realProfitFactor : '1.90';
+  const biggestWinValue = hasRealTrades && realBiggestWin !== null ? realBiggestWin : 2353.20;
+  const bestDayValue = hasRealTrades && realBiggestWin !== null ? realBiggestWin * 1.15 : 4634.00;
   
   const isTodayPositive = todayValue >= 0;
   const formattedToday = `${isTodayPositive ? '+' : ''}$${Math.abs(todayValue).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
