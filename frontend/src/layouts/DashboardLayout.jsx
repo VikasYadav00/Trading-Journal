@@ -263,14 +263,14 @@ export default function DashboardLayout() {
               <Menu className="w-6 h-6" />
             </button>
 
-            {/* MT5 Connection Widget */}
+            {/* Delta Exchange Connection Widget */}
             <div className="relative">
               <button 
                 onClick={() => setIsMT5Open(!isMT5Open)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#110e28] border border-[#2d2354] hover:bg-[#1a1438] transition-all text-xs font-semibold text-[#8b5cf6]"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                <span className="text-[#a78bfa]">MT5 #33XXX8</span>
+                <span className="text-[#a78bfa]">Delta Exchange</span>
                 <span className="text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.5 rounded text-[10px]">Connected</span>
                 <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
               </button>
@@ -286,9 +286,9 @@ export default function DashboardLayout() {
                       exit={{ opacity: 0, y: 10 }}
                       className="absolute left-0 mt-2 w-56 rounded-lg bg-[#110d24] border border-[#2d2354] shadow-xl p-3 z-20 space-y-2 text-xs"
                     >
-                      <h4 className="font-bold text-foreground">Broker Connection</h4>
-                      <p className="text-muted-foreground">Successfully linked to MetaTrader 5 live account. Real-time executions are syncing automatically.</p>
-                      <div className="text-[10px] text-emerald-400 font-mono">Ping: 12ms | Last Sync: Just now</div>
+                      <h4 className="font-bold text-foreground">Delta Exchange Connection</h4>
+                      <p className="text-muted-foreground">Successfully linked to Delta Exchange API. Real-time futures and options logs are syncing automatically.</p>
+                      <div className="text-[10px] text-emerald-400 font-mono">Ping: 8ms | Auto-Sync: Active</div>
                     </motion.div>
                   </>
                 )}

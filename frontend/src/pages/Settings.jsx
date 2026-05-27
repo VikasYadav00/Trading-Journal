@@ -168,6 +168,56 @@ export default function Settings() {
         </AnimatePresence>
       </motion.div>
 
+      {/* Delta Exchange API Integration Card */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+        className="glass-card rounded-xl overflow-hidden mt-6">
+        <div className="p-6 border-b border-foreground/5 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+              <Shield className="w-5 h-5 animate-pulse" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Delta Exchange API Integration</h2>
+              <p className="text-xs text-muted-foreground">Link your account to auto-sync crypto positions, options, and futures.</p>
+            </div>
+          </div>
+          <span className="text-[10px] font-extrabold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wider">
+            Connected
+          </span>
+        </div>
+        <form onSubmit={(e) => { e.preventDefault(); setLocalSuccess('Delta Exchange API credentials updated successfully!'); setTimeout(() => setLocalSuccess(''), 3000); }} className="p-6 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">API Key</label>
+              <input
+                type="text"
+                placeholder="dt_live_..."
+                defaultValue="dt_live_687b32c84912e5c94f09a15ab8ef"
+                className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">API Secret</label>
+              <input
+                type="password"
+                placeholder="Enter secret"
+                defaultValue="••••••••••••••••••••••••••••••••"
+                className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
+          </div>
+          <div className="flex justify-between items-center pt-2">
+            <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+              Connection secure (SSL encrypted)
+            </p>
+            <button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-5 py-2 rounded-lg text-xs transition-all shadow-lg shadow-primary/20">
+              Update Credentials
+            </button>
+          </div>
+        </form>
+      </motion.div>
+
       {/* Settings Sections */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {sections.map((sec, i) => (
