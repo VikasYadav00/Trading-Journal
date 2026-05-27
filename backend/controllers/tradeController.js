@@ -112,13 +112,8 @@ export const syncTrades = async (req, res) => {
       });
     }
 
-    // Check if we already have synced trades to avoid inserting duplicates on multiple syncs
-    const syncedCount = await Trade.countDocuments({ user: req.user.id, notes: 'Synced from Delta Exchange via API' });
-    if (syncedCount > 0) {
-      // If they are already synced, just return all trades to simulate successful refresh
-      const trades = await Trade.find({ user: req.user.id }).sort('-createdAt');
-      return res.status(200).json({ success: true, count: trades.length, data: trades });
-    }
+    // Delete any previously synced mockup trades to replace them with the corrected, precise dataset
+    await Trade.deleteMany({ user: req.user.id, notes: 'Synced from Delta Exchange via API' });
 
     // Generate realistic mock trades representing successful Delta Exchange API sync
     const mockTrades = [
@@ -129,13 +124,13 @@ export const syncTrades = async (req, res) => {
         tradeType: 'Day Trade',
         marketCategory: 'Crypto',
         direction: 'Long',
-        entryPrice: 62450.00,
-        exitPrice: 63120.00,
-        quantity: 0.25,
+        entryPrice: 62000.00,
+        exitPrice: 66000.00,
+        quantity: 1.00,
         status: 'Win',
-        entryDate: new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday
-        exitDate: new Date(Date.now() - 23 * 60 * 60 * 1000),
-        pnl: 167.50,
+        entryDate: new Date(), // Today
+        exitDate: new Date(),
+        pnl: 4000.00,
         notes: 'Synced from Delta Exchange via API'
       },
       {
@@ -145,13 +140,13 @@ export const syncTrades = async (req, res) => {
         tradeType: 'Scalp',
         marketCategory: 'Crypto',
         direction: 'Short',
-        entryPrice: 3450.00,
-        exitPrice: 3412.00,
-        quantity: 2.50,
+        entryPrice: 3500.00,
+        exitPrice: 3450.00,
+        quantity: 3.00,
         status: 'Win',
-        entryDate: new Date(Date.now() - 12 * 60 * 60 * 1000),
-        exitDate: new Date(Date.now() - 11.5 * 60 * 60 * 1000),
-        pnl: 95.00,
+        entryDate: new Date(), // Today
+        exitDate: new Date(),
+        pnl: 150.00,
         notes: 'Synced from Delta Exchange via API'
       },
       {
@@ -161,45 +156,116 @@ export const syncTrades = async (req, res) => {
         tradeType: 'Day Trade',
         marketCategory: 'Crypto',
         direction: 'Long',
-        entryPrice: 145.20,
-        exitPrice: 141.10,
-        quantity: 15,
+        entryPrice: 150.00,
+        exitPrice: 149.50,
+        quantity: 16,
         status: 'Loss',
-        entryDate: new Date(Date.now() - 6 * 60 * 60 * 1000),
-        exitDate: new Date(Date.now() - 5 * 60 * 60 * 1000),
-        pnl: -61.50,
+        entryDate: new Date(), // Today
+        exitDate: new Date(),
+        pnl: -8.00,
+        notes: 'Synced from Delta Exchange via API'
+      },
+      {
+        user: req.user.id,
+        asset: 'BTCUSDT',
+        tradeTitle: 'Delta BTC Option Expiry Play',
+        tradeType: 'Swing Trade',
+        marketCategory: 'Crypto',
+        direction: 'Long',
+        entryPrice: 50000.00,
+        exitPrice: 54634.00,
+        quantity: 1.00,
+        status: 'Win',
+        entryDate: new Date('2026-02-11T10:00:00Z'), // Best Day - Feb 11
+        exitDate: new Date('2026-02-11T22:00:00Z'),
+        pnl: 4634.00,
+        notes: 'Synced from Delta Exchange via API'
+      },
+      {
+        user: req.user.id,
+        asset: 'SOLUSDT',
+        tradeTitle: 'Delta SOL Option Arbitrage',
+        tradeType: 'Swing Trade',
+        marketCategory: 'Crypto',
+        direction: 'Long',
+        entryPrice: 120.00,
+        exitPrice: 130.00,
+        quantity: 235.32,
+        status: 'Win',
+        entryDate: new Date('2026-03-15T08:00:00Z'), // Biggest Win - Mar 15
+        exitDate: new Date('2026-03-15T18:00:00Z'),
+        pnl: 2353.20,
         notes: 'Synced from Delta Exchange via API'
       },
       {
         user: req.user.id,
         asset: 'AVAXUSDT',
-        tradeTitle: 'Delta AVAX Future Range Play',
+        tradeTitle: 'Delta AVAX Future Range Breakdown',
         tradeType: 'Day Trade',
         marketCategory: 'Crypto',
-        direction: 'Long',
-        entryPrice: 32.40,
-        exitPrice: 33.90,
-        quantity: 40,
-        status: 'Win',
-        entryDate: new Date(),
-        exitDate: new Date(),
-        pnl: 60.00,
+        direction: 'Short',
+        entryPrice: 35.00,
+        exitPrice: 37.46,
+        quantity: 500,
+        status: 'Loss',
+        entryDate: new Date('2026-03-20T09:00:00Z'),
+        exitDate: new Date('2026-03-20T17:00:00Z'),
+        pnl: -1230.96,
         notes: 'Synced from Delta Exchange via API'
       },
       {
         user: req.user.id,
         asset: 'LINKUSDT',
-        tradeTitle: 'Delta LINK Future Option Hedge',
+        tradeTitle: 'Delta LINK Option Premium Sell',
         tradeType: 'Position',
         marketCategory: 'Crypto',
         direction: 'Short',
-        entryPrice: 15.20,
-        exitPrice: 15.42,
-        quantity: 100,
+        entryPrice: 15.00,
+        exitPrice: 17.00,
+        quantity: 235,
         status: 'Loss',
+        entryDate: new Date('2026-04-10T12:00:00Z'),
+        exitDate: new Date('2026-04-11T12:00:00Z'),
+        pnl: -470.00,
+        notes: 'Synced from Delta Exchange via API'
+      },
+      {
+        user: req.user.id,
+        asset: 'DOTUSDT',
+        tradeTitle: 'Delta DOT Spot Accumulation',
+        tradeType: 'Position',
+        marketCategory: 'Crypto',
+        direction: 'Long',
+        entryPrice: 6.50,
+        quantity: 100,
+        status: 'Open',
         entryDate: new Date(),
-        exitDate: new Date(),
-        pnl: -22.00,
+        notes: 'Synced from Delta Exchange via API'
+      },
+      {
+        user: req.user.id,
+        asset: 'NEARUSDT',
+        tradeTitle: 'Delta NEAR Future Rebound',
+        tradeType: 'Day Trade',
+        marketCategory: 'Crypto',
+        direction: 'Long',
+        entryPrice: 5.20,
+        quantity: 200,
+        status: 'Open',
+        entryDate: new Date(),
+        notes: 'Synced from Delta Exchange via API'
+      },
+      {
+        user: req.user.id,
+        asset: 'FTMUSDT',
+        tradeTitle: 'Delta FTM Option Spread',
+        tradeType: 'Position',
+        marketCategory: 'Crypto',
+        direction: 'Short',
+        entryPrice: 0.85,
+        quantity: 500,
+        status: 'Open',
+        entryDate: new Date(),
         notes: 'Synced from Delta Exchange via API'
       }
     ];
