@@ -22,6 +22,14 @@ export default function Settings() {
   });
   const [localSuccess, setLocalSuccess] = useState('');
   const [localError, setLocalError] = useState('');
+  const [detectedIp, setDetectedIp] = useState('Detecting...');
+
+  useEffect(() => {
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => setDetectedIp(data.ip))
+      .catch(() => setDetectedIp('Could not detect IP'));
+  }, []);
 
   useEffect(() => {
     if (isSuccess && isEditing) {
@@ -186,6 +194,27 @@ export default function Settings() {
           </span>
         </div>
         <form onSubmit={(e) => { e.preventDefault(); setLocalSuccess('Delta Exchange API credentials updated successfully!'); setTimeout(() => setLocalSuccess(''), 3000); }} className="p-6 space-y-4">
+          
+          {/* Dynamic Public IP Detector Helper */}
+          <div className="bg-[#1b1535]/50 border border-[#2d2354] rounded-lg p-3.5 flex justify-between items-center text-xs">
+            <div>
+              <p className="font-bold text-white">Your Public IP Address</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">Copy this IP to your Delta Exchange API whitelist config.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono bg-[#110d24] px-2.5 py-1 rounded text-[#a78bfa] font-bold border border-[#2d2354]">
+                {detectedIp}
+              </span>
+              <button 
+                type="button"
+                onClick={() => { navigator.clipboard.writeText(detectedIp); alert('IP copied to clipboard!'); }}
+                className="text-[10px] bg-primary/20 hover:bg-primary/35 text-primary px-2.5 py-1 rounded font-bold transition-all"
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">API Key</label>
@@ -202,6 +231,15 @@ export default function Settings() {
                 type="password"
                 placeholder="Enter secret"
                 defaultValue="••••••••••••••••••••••••••••••••"
+                className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
+            <div className="space-y-1 md:col-span-2">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Whitelisted IP Address (for reference)</label>
+              <input
+                type="text"
+                placeholder="e.g. 192.168.1.1"
+                defaultValue="103.241.12.18"
                 className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
               />
             </div>
