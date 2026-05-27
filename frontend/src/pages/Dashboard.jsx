@@ -315,6 +315,36 @@ export default function Dashboard() {
   const winsSorted = [...closedTrades].filter(t => (t.pnl || 0) > 0).sort((a,b) => b.pnl - a.pnl);
   const realBiggestWin = winsSorted.length > 0 ? winsSorted[0].pnl : null;
 
+  // Dynamic Greeting based on time of day
+  const greetingText = (() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  })();
+
+  // Today's formatted date
+  const todayDateString = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  // Calculate best day's date dynamically
+  const dailyPnL = {};
+  closedTrades.forEach(t => {
+    const dateKey = new Date(t.entryDate || t.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    dailyPnL[dateKey] = (dailyPnL[dateKey] || 0) + (t.pnl || 0);
+  });
+  let bestDayDateString = 'Feb 11';
+  let maxPnLValue = -Infinity;
+  Object.keys(dailyPnL).forEach(dateKey => {
+    if (dailyPnL[dateKey] > maxPnLValue) {
+      maxPnLValue = dailyPnL[dateKey];
+      bestDayDateString = dateKey;
+    }
+  });
+
   // --- STATS MERGING (Database values if present, else fall back to mockup parameters) ---
   const hasRealTrades = realTradesCount > 0;
 
@@ -341,7 +371,7 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-            Good morning, <span className="text-[#a78bfa]">{user?.fullName || user?.username || 'Tradinjournal'}</span>
+            {greetingText}, <span className="text-[#a78bfa]">{user?.fullName || user?.username || 'Tradinjournal'}</span>
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">Here's your trading performance overview</p>
         </div>
@@ -374,7 +404,7 @@ export default function Dashboard() {
             <h3 className={`text-2xl font-black ${isTodayPositive ? 'text-emerald-400' : 'text-rose-400'} tracking-tight`}>
               {formattedToday}
             </h3>
-            <p className="text-[10px] text-muted-foreground mt-1.5">Friday, Mar 20</p>
+            <p className="text-[10px] text-muted-foreground mt-1.5">{todayDateString}</p>
           </div>
         </motion.div>
 
@@ -507,7 +537,7 @@ export default function Dashboard() {
             <h3 className="text-2xl font-black text-amber-400 tracking-tight">
               +${bestDayValue.toLocaleString('en-US', { minimumFractionDigits: 0 })}.00
             </h3>
-            <p className="text-[10px] text-muted-foreground mt-1.5">Feb 11</p>
+            <p className="text-[10px] text-muted-foreground mt-1.5">{hasRealTrades ? bestDayDateString : 'Feb 11'}</p>
           </div>
         </motion.div>
 
