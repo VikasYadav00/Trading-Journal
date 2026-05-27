@@ -1,9 +1,12 @@
 import express from 'express';
-import { getTrades, getTrade, addTrade, updateTrade, deleteTrade } from '../controllers/tradeController.js';
+import { getTrades, getTrade, addTrade, updateTrade, deleteTrade, syncTrades } from '../controllers/tradeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import upload from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
+
+router.route('/sync')
+  .post(protect, syncTrades);
 
 router.route('/')
   .get(protect, getTrades)

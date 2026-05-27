@@ -20,7 +20,7 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrades, updateTrade } from '../features/trades/tradeSlice';
+import { getTrades, updateTrade, syncTrades } from '../features/trades/tradeSlice';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
@@ -277,11 +277,15 @@ export default function Dashboard() {
 
   const handleSyncTrades = () => {
     setIsSyncing(true);
-    // Simulate API connection/trade fetch
-    setTimeout(() => {
-      setIsSyncing(false);
-      dispatch(getTrades());
-    }, 1200);
+    dispatch(syncTrades())
+      .unwrap()
+      .then(() => {
+        setIsSyncing(false);
+      })
+      .catch((err) => {
+        setIsSyncing(false);
+        alert(err || 'Sync failed. Please check your Delta Exchange API keys in Settings.');
+      });
   };
 
   // Compute stats from real trades database

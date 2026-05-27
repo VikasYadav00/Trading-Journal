@@ -27,6 +27,15 @@ const UserSchema = new mongoose.Schema({
   country: {
     type: String,
   },
+  deltaApiKey: {
+    type: String,
+  },
+  deltaApiSecret: {
+    type: String,
+  },
+  whitelistedIp: {
+    type: String,
+  },
   password: {
     type: String,
     required: [true, 'Please add a password'],

@@ -201,6 +201,17 @@ export const updateProfile = async (req, res) => {
       user.fullName = req.body.fullName;
     }
 
+    // Update Delta Exchange Fields
+    if (req.body.deltaApiKey !== undefined) {
+      user.deltaApiKey = req.body.deltaApiKey;
+    }
+    if (req.body.deltaApiSecret !== undefined) {
+      user.deltaApiSecret = req.body.deltaApiSecret;
+    }
+    if (req.body.whitelistedIp !== undefined) {
+      user.whitelistedIp = req.body.whitelistedIp;
+    }
+
     // Update Password
     if (req.body.password) {
       // If current password check is needed we could add it, but for simplicity:
@@ -303,6 +314,9 @@ const sendTokenResponse = (user, statusCode, res) => {
       username: user.username,
       email: user.email,
       plan: user.plan,
+      deltaApiKey: user.deltaApiKey,
+      deltaApiSecret: user.deltaApiSecret,
+      whitelistedIp: user.whitelistedIp,
     },
   });
 };

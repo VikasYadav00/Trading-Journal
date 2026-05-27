@@ -46,6 +46,15 @@ export const deleteTrade = createAsyncThunk('trades/delete', async (id, thunkAPI
   }
 });
 
+export const syncTrades = createAsyncThunk('trades/sync', async (_, thunkAPI) => {
+  try {
+    return await tradeService.syncTrades();
+  } catch (error) {
+    const message = error.response?.data?.message || error.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const tradeSlice = createSlice({
   name: 'trades',
   initialState,
@@ -96,6 +105,19 @@ export const tradeSlice = createSlice({
       })
       .addCase(deleteTrade.fulfilled, (state, action) => {
         state.trades = state.trades.filter((t) => t._id !== action.payload);
+      })
+      .addCase(syncTrades.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(syncTrades.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.trades = action.payload;
+      })
+      .addCase(syncTrades.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });

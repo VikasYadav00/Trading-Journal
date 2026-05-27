@@ -31,6 +31,23 @@ export default function Settings() {
       .catch(() => setDetectedIp('Could not detect IP'));
   }, []);
 
+  const [deltaApiKey, setDeltaApiKey] = useState(user?.deltaApiKey || '');
+  const [deltaApiSecret, setDeltaApiSecret] = useState(user?.deltaApiSecret || '');
+  const [userWhitelistedIp, setUserWhitelistedIp] = useState(user?.whitelistedIp || '');
+
+  const handleUpdateDeltaCreds = (e) => {
+    e.preventDefault();
+    setLocalError('');
+    setLocalSuccess('');
+    dispatch(updateProfile({
+      deltaApiKey,
+      deltaApiSecret,
+      whitelistedIp: userWhitelistedIp,
+    }));
+    setLocalSuccess('Delta Exchange API credentials updated successfully!');
+    setTimeout(() => setLocalSuccess(''), 3000);
+  };
+
   useEffect(() => {
     if (isSuccess && isEditing) {
       setLocalSuccess('Profile updated successfully!');
@@ -193,7 +210,7 @@ export default function Settings() {
             Connected
           </span>
         </div>
-        <form onSubmit={(e) => { e.preventDefault(); setLocalSuccess('Delta Exchange API credentials updated successfully!'); setTimeout(() => setLocalSuccess(''), 3000); }} className="p-6 space-y-4">
+        <form onSubmit={handleUpdateDeltaCreds} className="p-6 space-y-4">
           
           {/* Dynamic Public IP Detector Helper */}
           <div className="bg-[#1b1535]/50 border border-[#2d2354] rounded-lg p-3.5 flex justify-between items-center text-xs">
@@ -219,18 +236,22 @@ export default function Settings() {
             <div className="space-y-1">
               <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">API Key</label>
               <input
+                required
                 type="text"
                 placeholder="dt_live_..."
-                defaultValue="dt_live_687b32c84912e5c94f09a15ab8ef"
+                value={deltaApiKey}
+                onChange={(e) => setDeltaApiKey(e.target.value)}
                 className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
               />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">API Secret</label>
               <input
+                required
                 type="password"
                 placeholder="Enter secret"
-                defaultValue="••••••••••••••••••••••••••••••••"
+                value={deltaApiSecret}
+                onChange={(e) => setDeltaApiSecret(e.target.value)}
                 className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
               />
             </div>
@@ -239,7 +260,8 @@ export default function Settings() {
               <input
                 type="text"
                 placeholder="e.g. 192.168.1.1"
-                defaultValue="103.241.12.18"
+                value={userWhitelistedIp}
+                onChange={(e) => setUserWhitelistedIp(e.target.value)}
                 className="w-full bg-[#1b1535] border border-[#2d2354] rounded-lg px-4 py-2.5 text-xs text-white focus:border-primary focus:outline-none transition-colors"
               />
             </div>
