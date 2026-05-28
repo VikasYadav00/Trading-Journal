@@ -30,10 +30,5 @@ const deleteTrade = async (id) => {
   return response.data;
 };
 
-const syncTrades = async () => {
-  const response = await axios.post(API_URL + 'sync', {}, getConfig());
-  return response.data.data;
-};
-
-const tradeService = { getTrades, addTrade, updateTrade, deleteTrade, syncTrades };
+const tradeService = { getTrades, addTrade, updateTrade, deleteTrade };
 export default tradeService;
